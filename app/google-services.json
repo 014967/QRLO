@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "651194527553",
+    "firebase_url": "https://qrlo-798fd.firebaseio.com",
+    "project_id": "qrlo-798fd",
+    "storage_bucket": "qrlo-798fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651194527553:android:01fe2174dd28ff27f8fbc0",
+        "android_client_info": {
+          "package_name": "com.example.qrlo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651194527553-k8383ikgf0vf2loqf0l0uapldebhlhi2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxZLGPRlPCDtKUgToxz4fKX_ORJwz1qA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651194527553-k8383ikgf0vf2loqf0l0uapldebhlhi2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
