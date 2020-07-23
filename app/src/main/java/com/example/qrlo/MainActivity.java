@@ -42,6 +42,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,25 +70,25 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "FacebookAuthentication";
 
-
+    RecyclerView recyclerView;
+    my_qr_adapter adapter;
+    ArrayList<my_qr_item> mList = new ArrayList<my_qr_item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.my_qr_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        my_qr_adapter adapter = new my_qr_adapter();
-        recyclerView.setAdapter(adapter);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-
+        recyclerView = findViewById(R.id.my_qr_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new my_qr_adapter(mList);
+        recyclerView.setAdapter(adapter);
 
 
 
