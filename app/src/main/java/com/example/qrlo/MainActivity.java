@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("user");
+
+
 
 
 
@@ -154,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleFacebookToken(AccessToken accessToken)
     {
+        // TODO: 2020-07-23
+        /*
         accessToken = AccessToken.getCurrentAccessToken();
 
         GraphRequest request = GraphRequest.newMeRequest(
@@ -167,38 +169,6 @@ public class MainActivity extends AppCompatActivity {
                         final String gender = object.optString("gender");
 
 
-
-
-
-                        User = mFirebaseAuth.getCurrentUser();
-                        stuid = User.getUid();
-
-
-                        myRef.child(stuid).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                String userName = User.getDisplayName();
-
-                                Map<String, Object> profile = new HashMap<String, Object>();
-                                profile.put("email", email);
-                                profile.put("uid",User.getUid());
-                                profile.put("name", name);
-                                profile.put("birthday" , birthday);
-                                profile.put("gender" , gender);
-                                myRef.child(User.getUid()).setValue(profile);
-
-
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
                     }
                 }
         );
@@ -208,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         request.setParameters(parameters);
         request.executeAsync();
 
-
+        */
 
         Log.d(TAG, "handleFacebookToken" + accessToken);
 
@@ -226,9 +196,34 @@ public class MainActivity extends AppCompatActivity {
 
                     updateUI(User);
 
+                    User = mFirebaseAuth.getCurrentUser();
+                    stuid = User.getUid();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef = database.getReference("user");
+                    myRef.child(stuid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            String userName = User.getDisplayName();
+
+                            Map<String, Object> profile = new HashMap<String, Object>();
+                            profile.put("email", User.getEmail());
+                            profile.put("uid",User.getUid());
+                            profile.put("name", userName);
+                     //  profile.put("birthday" , birthday);
+                          //  profile.put("gender" , gender);
+                            myRef.child(User.getUid()).setValue(profile);
 
 
 
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                     Intent in = new Intent(MainActivity.this , After_Login.class);
                     startActivity(in);
