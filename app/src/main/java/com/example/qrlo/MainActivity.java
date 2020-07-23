@@ -5,12 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,18 +20,28 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +52,21 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewUser;
     private LoginButton loginButton;
     private ImageView imageView;
+
+
+    FirebaseDatabase firebaseDatabase;
+    private FirebaseUser User;
+    DatabaseReference myRef;
+
+    private ProgressBar pb_login;
+
+
+
+    private String stuid;
+
+
     private static final String TAG = "FacebookAuthentication";
+
 
 
     @Override
@@ -54,10 +78,22 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("user");
+
+
+
+
         textViewUser = findViewById(R.id.text_user);
         loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
         imageView = findViewById(R.id.imageView);
+        pb_login = findViewById(R.id.pb_login);
+
+
+
         mCallbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -81,10 +117,15 @@ public class MainActivity extends AppCompatActivity {
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null)
+                User = firebaseAuth.getCurrentUser();
+                if(User!=null)
                 {
-                    updateUI(user);
+                    updateUI(User);
+                    SharedPreferences sharedPreferences = getSharedPreferences("email", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("uid", User.getUid());
+                    editor.putString("email",User.getEmail());
+                    editor.apply();
                 }
                 else
                 {
@@ -113,17 +154,82 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleFacebookToken(AccessToken accessToken)
     {
+        accessToken = AccessToken.getCurrentAccessToken();
+
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        final String name = object.optString("name");
+                        final String id= object.optString("id");
+                        final String email = object.optString("email");
+                        final String birthday= object.optString("birthday");
+                        final String gender = object.optString("gender");
+
+
+
+
+
+                        User = mFirebaseAuth.getCurrentUser();
+                        stuid = User.getUid();
+
+
+                        myRef.child(stuid).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                String userName = User.getDisplayName();
+
+                                Map<String, Object> profile = new HashMap<String, Object>();
+                                profile.put("email", email);
+                                profile.put("uid",User.getUid());
+                                profile.put("name", name);
+                                profile.put("birthday" , birthday);
+                                profile.put("gender" , gender);
+                                myRef.child(User.getUid()).setValue(profile);
+
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                }
+        );
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email, birthday,gender");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+
+
         Log.d(TAG, "handleFacebookToken" + accessToken);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mFirebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                pb_login.setVisibility(View.VISIBLE);
+
+
                 if(task.isSuccessful())
                 {
                     Log.d(TAG , " sign in with credential: successful");
-                    FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                    updateUI(user);
+
+                    updateUI(User);
+
+
+
+
+
                     Intent in = new Intent(MainActivity.this , After_Login.class);
                     startActivity(in);
                 }
@@ -143,6 +249,9 @@ public class MainActivity extends AppCompatActivity {
         if(user != null)
         {
             textViewUser.setText(user.getDisplayName());
+
+
+
             if(user.getPhotoUrl() != null)
             {
                 String photoUrl = user.getPhotoUrl().toString();
