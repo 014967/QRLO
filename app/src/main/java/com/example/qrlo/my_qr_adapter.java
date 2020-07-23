@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder> {
-    private ArrayList<String> datalist = null;
+    private ArrayList<String> list = null;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ViewHolder(View itemView){
