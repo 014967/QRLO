@@ -3,4 +3,14 @@
     <string name="facebook_app_id">3375893455807907</string>
     <string name="fb_login_protocol_scheme">fb3375893455807907</string>
 
+    <string name="ok">확인</string>
+
+    <!-- activity_create_qr.xml -->
+    <string name="create_qr_title">새 QR 코드 생성</string>
+    <string name="create_qr_address">주소</string>
+    <string name="create_qr_detail_address">상세 주소</string>
+    <string name="create_qr_is_temperature">온도 체크 가능</string>
+    <string name="create_qr_tell">전화번호</string>
+    <string name="create_qr_tell_exam">010&#8211;1234&#8211;5678</string>
+    <string name="create_qr_logo">로고</string>
 </resources>

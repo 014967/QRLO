@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateQrActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/create_qr_title_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:text="@string/create_qr_title"
+        android:layout_gravity="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/create_qr_address_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/create_qr_address"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="이부분에 Edit이 아니라 API로 받아와야 함"
+                />
+
+            <TextView
+                android:id="@+id/create_qr_detail_address_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/create_qr_detail_address"
+                />
+
+            <EditText
+                android:id="@+id/create_qr_detail_address_edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/create_qr_detail_address"
+                />
+
+            <TextView
+                android:id="@+id/create_qr_is_temperature_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/create_qr_is_temperature"
+                />
+
+            <CheckBox
+                android:id="@+id/create_qr_is_temperature_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/create_qr_tell_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/create_qr_tell"
+                />
+
+            <EditText
+                android:id="@+id/create_qr_tell_edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/create_qr_tell_exam"
+                android:inputType="phone"
+                />
+
+            <TextView
+                android:id="@+id/create_qr_logo_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/create_qr_logo"
+                />
+
+            <ImageButton
+                android:id="@+id/create_qr_logo_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_24"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/create_qr_ok"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/ok"
+        />
+
+</LinearLayout>
