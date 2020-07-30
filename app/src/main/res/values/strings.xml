@@ -10,7 +10,7 @@
     <string name="create_qr_address">주소</string>
     <string name="create_qr_detail_address">상세 주소</string>
     <string name="create_qr_is_temperature">온도 체크 가능</string>
-    <string name="create_qr_tell">전화번호</string>
-    <string name="create_qr_tell_exam">010&#8211;1234&#8211;5678</string>
+    <string name="create_qr_phone">전화번호</string>
+    <string name="create_qr_tell_exam">010&#8211;1234&#8211;5678(\'&#8211;'없이 입력)</string>
     <string name="create_qr_logo">로고</string>
 </resources>
