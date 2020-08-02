@@ -28,6 +28,21 @@
             >
 
             <TextView
+                android:id="@+id/create_qr_name_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="QR 이름"
+                />
+
+            <EditText
+                android:id="@+id/create_qr_name_edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="00자 이내로 적어주세요"
+                />
+
+            <TextView
                 android:id="@+id/create_qr_address_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -70,9 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "FacebookAuthentication";
 
-    RecyclerView recyclerView;
-    my_qr_adapter adapter;
-    ArrayList<my_qr_item> mList = new ArrayList<my_qr_item>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        recyclerView = findViewById(R.id.my_qr_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new my_qr_adapter(mList);
-        recyclerView.setAdapter(adapter);
 
 
 
