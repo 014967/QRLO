@@ -18,6 +18,7 @@
         <!-- 최소 api 추가함 -->
         <activity android:name=".CreateQrActivity" />
         <activity android:name=".After_Login" />
+        <activity android:name=".MyQrInfo" />
         <activity android:name=".MyQrActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
