@@ -51,8 +51,9 @@ public class CreateQrActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
                 //TODO outIntent.putExtra("Logo", ) 로고는 어떻게 받아오지?
-                outIntent.putExtra("QR name", name.getText().toString());
                 outIntent.putExtra("Detail address", detailAddress.getText().toString());
+                outIntent.putExtra("QR name", name.getText().toString());
+
                 setResult(RESULT_OK, outIntent);
                 finish();
             }
