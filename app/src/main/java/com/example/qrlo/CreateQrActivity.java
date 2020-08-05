@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 public class CreateQrActivity extends AppCompatActivity {
 
-    Button btnOK;
-    EditText detailAddress, phone, name;
+    private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
+
+    Button btnAddress, btnOK;
+    EditText address, detailAddress, phone, name;
     CheckBox isTemperature;
     ImageButton addLogo;
 
@@ -24,19 +26,26 @@ public class CreateQrActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_qr);
 
-        // 내 qr 코드 목록에서 + 버튼 눌렀을 때 나타날 액티비티
+        // xml 참조
+        address = findViewById(R.id.create_qr_address_edit);
         detailAddress = findViewById(R.id.create_qr_detail_address_edit);
         phone = findViewById(R.id.create_qr_phone_edit);
         isTemperature = findViewById(R.id.create_qr_is_temperature_check);
         addLogo = findViewById(R.id.create_qr_logo_btn);
         name = findViewById(R.id.create_qr_name_edit);
         btnOK = findViewById(R.id.create_qr_ok);
+        btnAddress = findViewById(R.id.create_qr_address_btn);
 
-        //TODO 주소를 가져올 때 다음 우편번호 주소 API : http://dailyddubby.blogspot.com/2018/02/2-api.html
+        if (btnAddress != null)
+            btnAddress.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(CreateQrActivity.this, AddressWebViewActivity.class);
+                    startActivityForResult(i, SEARCH_ADDRESS_ACTIVITY);
+                }
+            });
 
-        //TODO 이거 할라면 php로 서버 만들고 해야한다고 함
-
-
+        /*
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,5 +57,22 @@ public class CreateQrActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+         */
+     }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch(requestCode){
+            case SEARCH_ADDRESS_ACTIVITY :
+                if(resultCode == RESULT_OK){
+                    String data = intent.getExtras().getString("data");
+                    if (data != null)
+                        address.setText(data);
+                }
+                break;
+        }
     }
 }
