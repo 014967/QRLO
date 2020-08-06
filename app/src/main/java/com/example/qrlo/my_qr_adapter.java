@@ -8,10 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+//import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-
+/*
 public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder> {
     private ArrayList<my_qr_item> mData = null;
 
@@ -64,4 +64,4 @@ public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder
         return mData.size();
     }
 }
-
+*/

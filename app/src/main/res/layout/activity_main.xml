@@ -8,54 +8,108 @@
     tools:context=".MainActivity" >
 
 
-    <EditText
-        android:id="@+id/Email"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Email" />
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/PassWord"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="PassWord" />
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:padding="50dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textPersonName" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
+        <EditText
+            android:id="@+id/PassWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="PassWord"
+            android:inputType="textPersonName" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        />
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CheckBox" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="67dp"
-        android:background="#3F51B5"
-        app:srcCompat="@drawable/com_facebook_button_login_logo" />
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CheckBox" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_user"
-        android:layout_width="match_parent"
-        android:layout_height="41dp"
-        android:text="TextView" />
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/assignment1" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/assginment2"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btn_google"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_login"
-        style="?android:attr/progressBarStyle"
+        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+        android:visibility="gone" />
 
 
 </LinearLayout>

@@ -2,5 +2,13 @@
     <string name="app_name">QRLO</string>
     <string name="facebook_app_id">3375893455807907</string>
     <string name="fb_login_protocol_scheme">fb3375893455807907</string>
+    <string name="assignment1">First time here?</string>
+    <string name="assginment2">Sign Up</string>
+    <string name="login">로그인</string>
+    <string name="title_activity_f_d_f_d_f">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_qr_bottom">MainActivity</string>
 
 </resources>
