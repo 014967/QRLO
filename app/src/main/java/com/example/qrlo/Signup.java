@@ -1,6 +1,7 @@
 package com.example.qrlo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,21 +44,41 @@ public class Signup extends AppCompatActivity {
     String TAG = "SignUp.class";
     FirebaseDatabase database;
     DatabaseReference myRef;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser User;
+    FirebaseUser user;
     String stuid;
 
-    private FirebaseAuth mAuth;
 
+
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        mAuth = FirebaseAuth.getInstance();
 
-        database = FirebaseDatabase.getInstance();
+
+        database =FirebaseDatabase.getInstance();
         myRef = database.getReference("user");
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    SharedPreferences sharedPreferences = getSharedPreferences("email", MODE_PRIVATE); // Mode_private = 해당액티비티에서만 접근가능
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("uid", user.getUid());
+                    editor.putString("email", user.getEmail());
+                    editor.apply(); //SharedPreerence를 통해 정보를 저장
+
+
+                } else {
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         assignButton = findViewById(R.id.assignBtn);
         email = findViewById(R.id.Email);
@@ -85,38 +106,18 @@ public class Signup extends AppCompatActivity {
                 stPassWord = password.getText().toString();
                 stName = name.getText().toString();
 
-
-                mAuth.createUserWithEmailAndPassword(stEmail, stPassWord)
-                        .addOnCompleteListener(Signup.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                    Toast.makeText(Signup.this, "회원가입 성공!",
-                                            Toast.LENGTH_SHORT).show();
-                                    User = firebaseAuth.getCurrentUser();
-                                    stuid = User.getUid();
-                                    registerUser(stEmail,stPassWord,stName);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(Signup.this, "회원가입 실패!",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
-                                }
+                if(stEmail.isEmpty() || stEmail.equals("") ||stPassWord.isEmpty() || stPassWord.equals("")||stName.isEmpty() ||stName.equals(""))
+                {
+                    Toast.makeText(Signup.this, "이름과 이메일,비밀번호를 입력 해 주세요", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    registerUser(stEmail,stPassWord,stName);
+                }
 
 
 
-                            }
-                        });
 
-
-                Intent in = new Intent(Signup.this, MainActivity.class);
-                in.putExtra("stEmail", stEmail);
-                in.putExtra("stPassWord", stPassWord);
-                startActivity(in);
-                finish();
 
 
             }
@@ -140,57 +141,75 @@ public class Signup extends AppCompatActivity {
 
     };
 
-
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        mAuth.addAuthStateListener(mAuthListener);
+
+
+
+
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+
+
+
+    }
+
+
 
     private void updateUI(FirebaseUser currentUser) {
     }
 
-    public void registerUser(String id, String password, final String name) {
+    public void registerUser(String id, String password, final String name)
+    {
         mAuth.createUserWithEmailAndPassword(id, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(Signup.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete." + task.isSuccessful());
 
 
-                        if (!task.isSuccessful()) {
-                            //Toast.makeText(MainActivity.this,"Authentication failed", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Toast.makeText(MainActivity.this,"Authentication success", Toast.LENGTH_SHORT).show();
+                        if(!task.isSuccessful())
+                        {
+                            Toast.makeText(Signup.this,"Authentication failed", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(Signup.this,"Authentication success", Toast.LENGTH_SHORT).show();
 
-                            if (User != null) {
 
-                                myRef.child(stuid).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        Hashtable<String, String> profile = new Hashtable<>();
-                                        profile.put("email", User.getEmail());
-                                        profile.put("name", stName);
-                                        profile.put("birth", String.valueOf(mYear + "/" + mMonth + "/" + mDay));
-                                        profile.put("location agree", "");
-                                        profile.put("marketing agree", "");
-                                        myRef.child(stuid).setValue(profile);
-                                    }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                    }
-                                });
+                            Log.d(TAG, "USER = " + user);
+                            Log.d(TAG, "USER = " + user.getUid());
 
+                            if(user!=null) {
+
+                                Hashtable<String, String> profile = new Hashtable<>();
+                                profile.put("email", user.getEmail());
+                                profile.put("nickname",name);
+                                profile.put("age", "");
+                                stuid = user.getUid();
+                                myRef.child(stuid).setValue(profile);
                             }
+
+                            Intent in = new Intent(Signup.this, MainActivity.class);
+                            in.putExtra("stEmail", stEmail);
+                            in.putExtra("stPassWord", stPassWord);
+                            startActivity(in);
 
                         }
                     }
                 });
 
 
+
+
     }
+
 }

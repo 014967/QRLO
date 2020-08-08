@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     FirebaseDatabase firebaseDatabase;
     private FirebaseUser User;
-    DatabaseReference myRef;
+
 
     private ProgressBar pb_login;
     private String stuid;
@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("uid", User.getUid());
                     editor.putString("email",User.getEmail());
+
                     editor.apply();
                 }
                 else
