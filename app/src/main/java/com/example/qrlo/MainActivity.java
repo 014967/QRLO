@@ -314,31 +314,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void handleFacebookToken(AccessToken accessToken)
     {
-        // TODO: 2020-07-23
-        /*
-        accessToken = AccessToken.getCurrentAccessToken();
-
-        GraphRequest request = GraphRequest.newMeRequest(
-                accessToken, new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        final String name = object.optString("name");
-                        final String id= object.optString("id");
-                        final String email = object.optString("email");
-                        final String birthday= object.optString("birthday");
-                        final String gender = object.optString("gender");
 
 
-                    }
-                }
-        );
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email, birthday,gender");
-        request.setParameters(parameters);
-        request.executeAsync();
-
-        */
 
 
         Log.d(TAG, "handleFacebookToken" + accessToken);
