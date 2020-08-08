@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -19,7 +21,13 @@ import com.example.qrlo.bottomActivity.Bottom_Setting;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+
+
 public class After_Login extends AppCompatActivity {
+    Button btn_myQR;
 
     Fragment Bottom_History;
     Fragment Bottom_Home;
@@ -27,7 +35,7 @@ public class After_Login extends AppCompatActivity {
     Fragment Bottom_Administor;
 
     FrameLayout frameLayout;
-
+    FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -35,7 +43,8 @@ public class After_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after__login);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
         frameLayout = (FrameLayout)findViewById(R.id.navigation_frame);
         Bottom_Home = new Bottom_Home();
         Bottom_History = new Bottom_History();
@@ -48,36 +57,42 @@ public class After_Login extends AppCompatActivity {
 
 
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_history);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        ;
+        fragmentTransaction =getSupportFragmentManager().beginTransaction();
+
+
+        fragmentTransaction.replace(R.id.navigation_frame, Bottom_Home );
+        fragmentTransaction.commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
+
                 switch (menuItem.getItemId())
                 {
 
                     case  R.id.navigation_home :
-
+                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Home );
                         fragmentTransaction.commit();
 
                         return true;
 
                     case R.id.navigation_history :
-
+                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_History );
                         fragmentTransaction.commit();
 
                         return true;
                     case R.id.navigation_setting :
-
+                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Setting );
                         fragmentTransaction.commit();
 
 
                         return true;
                     case R.id.navigation_administor :
-
+                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Administor );
                         fragmentTransaction.commit();
 

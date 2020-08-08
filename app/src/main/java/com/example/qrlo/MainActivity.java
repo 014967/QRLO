@@ -82,9 +82,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     String stPassWord;
 
     private static final String TAG = "FacebookAuthentication";
+
     ArrayList<my_qr_item> mList = new ArrayList<my_qr_item>();
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         firebaseDatabase = FirebaseDatabase.getInstance();
         FacebookButton.setReadPermissions("email", "public_profile");
 
+
         Login_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 stPassWord = PassWord.getText().toString();
                 if (stEmail.equals("") || stPassWord.equals("")) {
                     Toast.makeText(MainActivity.this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+
 
                 } else {
 

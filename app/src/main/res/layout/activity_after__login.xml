@@ -6,22 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".After_Login">
 
-
     <FrameLayout
         android:id="@+id/navigation_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation">
-
-    </FrameLayout>
+        android:layout_above="@+id/bottom_navigation"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/bottom_navigation"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@drawable/selector"
-        app:itemIconTint="@drawable/selector"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
         app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="wrap_content">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>
