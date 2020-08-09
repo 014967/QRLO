@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.Switch;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ public class CreateQrActivity extends AppCompatActivity {
 
     Button btnAddress, btnOK;
     EditText address, detailAddress, phone, name;
-    CheckBox isTemperature;
+    Switch isTemperature;
     ImageButton addLogo;
 
     @Override
@@ -37,7 +37,7 @@ public class CreateQrActivity extends AppCompatActivity {
         address = findViewById(R.id.create_qr_address_edit);
         detailAddress = findViewById(R.id.create_qr_detail_address_edit);
         phone = findViewById(R.id.create_qr_phone_edit);
-        isTemperature = findViewById(R.id.create_qr_is_temperature_check);
+        isTemperature = findViewById(R.id.create_qr_is_temperature_switch);
         addLogo = findViewById(R.id.create_qr_logo_btn);
         name = findViewById(R.id.create_qr_name_edit);
         btnOK = findViewById(R.id.create_qr_ok);
