@@ -1,29 +1,37 @@
 package com.example.qrlo;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 public class my_qr_item {
-    private Drawable iconDrawable ;
+    private Bitmap iconBitmap ;
     private String titleStr ;
-    private String descStr ;
+    private String addressStr;
+    private String detailaddressStr ;
+    private Drawable tempDrawble;
+    private String phoneStr;
 
-    public void setIcon(Drawable icon) {
-        iconDrawable = icon ;
+    public void setIcon(Bitmap icon) {
+        iconBitmap = icon ;
     }
     public void setTitle(String title) {
         titleStr = title ;
     }
-    public void setDesc(String desc) {
-        descStr = desc ;
+    public void setAddress(String address){addressStr = address; }
+    public void setDetailAddress(String desc) {
+        detailaddressStr = desc ;
     }
+    public void setTemp(Drawable temp){tempDrawble = temp;}
+    public void setPhone(String phone){phoneStr = phone; }
 
-    public Drawable getIcon() {
-        return this.iconDrawable ;
-    }
+    public Bitmap getIcon() { return this.iconBitmap ; }
     public String getTitle() {
         return this.titleStr ;
     }
-    public String getDesc() {
-        return this.descStr ;
+    public String getAddress() { return this.addressStr ; }
+    public String getDetailAddress(){ return this.detailaddressStr ; }
+    public Drawable getTemp() {return this.tempDrawble;}
+    public String getPhone() {
+        return this.phoneStr ;
     }
 }

@@ -3,6 +3,9 @@ package com.example.qrlo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 public class CreateQrActivity extends AppCompatActivity {
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
+    private static final int ADD_LOGO = 10001;
 
     Button btnAddress, btnOK;
     EditText address, detailAddress, phone, name;
@@ -45,21 +52,38 @@ public class CreateQrActivity extends AppCompatActivity {
                 }
             });
 
-        /*
+
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
-                //TODO outIntent.putExtra("Logo", ) 로고는 어떻게 받아오지?
+                Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                outIntent.putExtra("Logo", byteArray);
+                outIntent.putExtra("Address", address.getText().toString());
+                outIntent.putExtra("Temperature", isTemperature.isChecked());
                 outIntent.putExtra("Detail address", detailAddress.getText().toString());
                 outIntent.putExtra("QR name", name.getText().toString());
+                outIntent.putExtra("Phone number", phone.getText().toString());
 
                 setResult(RESULT_OK, outIntent);
                 finish();
             }
         });
 
-         */
+
+        addLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, ADD_LOGO);
+            }
+        });
      }
 
 
@@ -74,6 +98,21 @@ public class CreateQrActivity extends AppCompatActivity {
                         address.setText(data);
                 }
                 break;
+            case ADD_LOGO :
+                if(resultCode == RESULT_OK)
+                {
+                    try{
+                        InputStream in = getContentResolver().openInputStream(intent.getData());
+                        Bitmap img = BitmapFactory.decodeStream(in);
+                        in.close();
+                        addLogo.setImageBitmap(img);
+                    }catch (Exception e){
+
+                    }
+                }
+                else if(resultCode == RESULT_CANCELED)
+                {
+                }
         }
     }
 }

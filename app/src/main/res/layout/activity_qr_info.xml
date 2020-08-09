@@ -10,12 +10,118 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_baseline_add_24"
         />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/qr_info_qr_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QR 이름:  "/>
+
+        <EditText
+            android:id="@+id/qr_info_qr_name_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QR 이름"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/qr_info_address_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="주소:  "/>
+
+        <EditText
+            android:id="@+id/qr_info_address_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="주소"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/qr_info_detail_address_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상세 주소:  "/>
+
+        <EditText
+            android:id="@+id/qr_info_detail_address_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상세 주소"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/qr_info_phone_number_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전화번호:  "/>
+
+        <EditText
+            android:id="@+id/qr_info_phone_number_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전화번호"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/qr_info_is_temperature_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="온도 체크 가능:  "/>
+
+        <CheckBox
+            android:id="@+id/qr_info_is_temperature_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
     <ImageButton
+        android:id="@+id/qr_info_share_imgbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_share_24"
         android:layout_gravity="center_horizontal"
         />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,11 +129,13 @@
         android:layout_gravity="center_horizontal"
         >
         <Button
+            android:id="@+id/qr_info_mod_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="수정"
             />
         <Button
+            android:id="@+id/qr_info_del_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="삭제"
