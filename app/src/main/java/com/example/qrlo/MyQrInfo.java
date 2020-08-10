@@ -28,7 +28,6 @@ public class MyQrInfo extends Activity {
     ImageView share, logo;
     Button mod, del;
     private static final int ADD_LOGO = 10001;
-    boolean imgchanged = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,21 +78,12 @@ public class MyQrInfo extends Activity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
-                        if(imgchanged==true) {
-                            Bitmap bitmap = ((BitmapDrawable)logo.getDrawable()).getBitmap();
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                            byte[] byteArray = stream.toByteArray();
-                            outIntent.putExtra("Logo", byteArray);
-                        }
-                        else {
-                            Drawable drawable = getResources().getDrawable(R.drawable.base);
-                            Bitmap bitmap2 = ((BitmapDrawable)drawable).getBitmap();
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                            byte[] byteArray2 = stream.toByteArray();
-                            outIntent.putExtra("Logo", byteArray2);
-                        }
+
+                        Bitmap bitmap = ((BitmapDrawable)logo.getDrawable()).getBitmap();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
+                        outIntent.putExtra("Logo", byteArray);
                         outIntent.putExtra("Address", address.getText().toString());
                         outIntent.putExtra("Temperature", isTemperature.isChecked());
                         outIntent.putExtra("Detail address", detailAddress.getText().toString());
@@ -132,7 +122,6 @@ public class MyQrInfo extends Activity {
                         Bitmap img = BitmapFactory.decodeStream(in);
                         in.close();
                         logo.setImageBitmap(img);
-                        imgchanged=true;
                     }catch (Exception e){
 
                     }

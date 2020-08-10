@@ -93,6 +93,7 @@ public class MyQrActivity extends Activity {
                     mList.add(item);
                     adapter.notifyDataSetChanged();
                 }
+                break;
             case ITEM_SELECT:
                 if(resultCode == RESULT_OK) {
                     String title = data.getStringExtra("QR name");
@@ -114,6 +115,7 @@ public class MyQrActivity extends Activity {
 
                     adapter.notifyDataSetChanged();
                 }
+                break;
         }
     }
 
