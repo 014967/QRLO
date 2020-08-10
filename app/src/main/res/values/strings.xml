@@ -21,4 +21,6 @@
     <string name="create_qr_phone">전화번호</string>
     <string name="create_qr_tell_exam">010&#8211;1234&#8211;5678("'"&#8211;"'"없이 입력)</string>
     <string name="create_qr_logo">로고</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

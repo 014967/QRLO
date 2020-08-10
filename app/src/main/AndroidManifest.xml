@@ -25,7 +25,7 @@ package="com.example.qrlo">
 
     <activity android:name=".corona19_check"></activity>
     <activity
-        android:name=".Signup"
+        android:name=".Signup.Signup"
         android:screenOrientation="fullSensor"
         tools:replace="screenOrientation" />
 

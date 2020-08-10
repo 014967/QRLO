@@ -14,6 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
@@ -42,6 +47,9 @@ public class CreateQrActivity extends AppCompatActivity {
         name = findViewById(R.id.create_qr_name_edit);
         btnOK = findViewById(R.id.create_qr_ok);
         btnAddress = findViewById(R.id.create_qr_address_btn);
+
+
+
 
         if (btnAddress != null)
             btnAddress.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +98,8 @@ public class CreateQrActivity extends AppCompatActivity {
 
                 setResult(RESULT_OK, outIntent);
                 finish();
+
+
             }
         });
 

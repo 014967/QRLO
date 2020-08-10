@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.qrlo.Signup.Signup;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -98,12 +99,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         stEmail = getIntent().getStringExtra("stEmail");
         stPassWord = getIntent().getStringExtra("stPassWord");
-        Email = findViewById(R.id.Email);
-        PassWord= findViewById(R.id.PassWord);
+
         SignUp = (TextView)findViewById(R.id.textView2);
         FacebookButton = findViewById(R.id.facebook_button);
-        pb_login = findViewById(R.id.pb_login);
-        Login_Button = findViewById(R.id.login_button);
+
 
         if(stEmail !=null && stPassWord != null)
         {
@@ -120,24 +119,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         FacebookButton.setReadPermissions("email", "public_profile");
 
 
-        Login_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stEmail = Email.getText().toString();
-                stPassWord = PassWord.getText().toString();
-                if (stEmail.equals("") || stPassWord.equals("")) {
-                    Toast.makeText(MainActivity.this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
 
-
-                } else {
-
-                    userLogin(stEmail, stPassWord);
-
-
-                }
-
-            }
-        });
 
 
 
@@ -181,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     editor.putString("email",User.getEmail());
 
                     editor.apply();
+
+                    Intent in = new Intent(MainActivity.this, After_Login.class);
+                    startActivity(in);
                 }
                 else
                 {
@@ -421,35 +406,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
 
-    public void userLogin(String id, String password)
-    {
 
-        mFirebaseAuth.signInWithEmailAndPassword(id, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signinWithEmail:onComplete:" + task.isSuccessful());
-
-
-
-
-
-
-                        if(!task.isSuccessful())
-                        {
-                            Log.v(TAG, "signInWithEmail", task.getException());
-                            Toast.makeText(MainActivity.this,"Authentication failed. ", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-
-                            User = mFirebaseAuth.getCurrentUser();
-                            Intent in = new Intent(MainActivity.this, After_Login.class);
-                            startActivity(in);
-
-                        }
-                    }
-                });
-    }
 
 }

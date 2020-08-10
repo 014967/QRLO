@@ -1,4 +1,4 @@
-package com.example.qrlo;
+package com.example.qrlo.Signup;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,31 +6,32 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.auth.api.Auth;
+import com.example.qrlo.MainActivity;
+import com.example.qrlo.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 public class Signup extends AppCompatActivity {
     private int mYear = 0, mMonth = 0, mDay = 0;
@@ -42,15 +43,18 @@ public class Signup extends AppCompatActivity {
     String stPassWord;
     String stName;
     String TAG = "SignUp.class";
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    FirebaseUser user;
+
     String stuid;
 
 
+    Fragment Signup1;
+    FrameLayout frameLayout;
+    FragmentTransaction fragmentTransaction;
+    FragmentManager fragmentManager;
 
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthListener;
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +62,15 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
 
+        frameLayout = findViewById(R.id.frameLayout);
+        Signup1 = new Signup1();
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, Signup1).commit();
+
+
+/*
         database =FirebaseDatabase.getInstance();
         myRef = database.getReference("user");
         mAuth = FirebaseAuth.getInstance();
@@ -84,6 +97,7 @@ public class Signup extends AppCompatActivity {
         email = findViewById(R.id.Email);
         password = findViewById(R.id.PassWord);
         name = findViewById(R.id.Name);
+
 
 
         Calendar calendar = new GregorianCalendar();
@@ -166,50 +180,6 @@ public class Signup extends AppCompatActivity {
     private void updateUI(FirebaseUser currentUser) {
     }
 
-    public void registerUser(String id, String password, final String name)
-    {
-        mAuth.createUserWithEmailAndPassword(id, password)
-                .addOnCompleteListener(Signup.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete." + task.isSuccessful());
-
-
-                        if(!task.isSuccessful())
-                        {
-                            Toast.makeText(Signup.this,"Authentication failed", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(Signup.this,"Authentication success", Toast.LENGTH_SHORT).show();
-
-
-
-
-                            Log.d(TAG, "USER = " + user);
-                            Log.d(TAG, "USER = " + user.getUid());
-
-                            if(user!=null) {
-
-                                Hashtable<String, String> profile = new Hashtable<>();
-                                profile.put("email", user.getEmail());
-                                profile.put("nickname",name);
-                                profile.put("age", "");
-                                stuid = user.getUid();
-                                myRef.child(stuid).setValue(profile);
-                            }
-
-                            Intent in = new Intent(Signup.this, MainActivity.class);
-                            in.putExtra("stEmail", stEmail);
-                            in.putExtra("stPassWord", stPassWord);
-                            startActivity(in);
-
-                        }
-                    }
-                });
-
-
-
-
+  */
     }
-
 }
