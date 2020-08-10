@@ -25,8 +25,7 @@ public class MyQrInfo extends Activity {
 
     EditText address, detailAddress, phone, name;
     CheckBox isTemperature;
-    ImageView share, logo;
-    Button mod, del;
+    ImageView share, logo, mod, del;
     private static final int ADD_LOGO = 10001;
 
     @Override
