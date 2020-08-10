@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
@@ -27,8 +28,10 @@ import android.widget.ImageButton;
 
 
 public class After_Login extends AppCompatActivity {
-    Button btn_myQR;
 
+
+
+    FragmentManager fragmentManager;
     Fragment Bottom_History;
     Fragment Bottom_Home;
     Fragment Bottom_Setting;
@@ -50,6 +53,10 @@ public class After_Login extends AppCompatActivity {
         Bottom_History = new Bottom_History();
         Bottom_Administor = new Bottom_Administor();
         Bottom_Setting = new Bottom_Setting();
+        fragmentManager =getSupportFragmentManager();
+
+
+        
 
 
 
