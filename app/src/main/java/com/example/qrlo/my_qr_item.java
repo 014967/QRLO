@@ -8,7 +8,7 @@ public class my_qr_item {
     private String titleStr ;
     private String addressStr;
     private String detailaddressStr ;
-    private Drawable tempDrawble;
+    private boolean tempDrawble;
     private String phoneStr;
 
     public void setIcon(Bitmap icon) {
@@ -21,7 +21,7 @@ public class my_qr_item {
     public void setDetailAddress(String desc) {
         detailaddressStr = desc ;
     }
-    public void setTemp(Drawable temp){tempDrawble = temp;}
+    public void setTemp(boolean temp){tempDrawble = temp;}
     public void setPhone(String phone){phoneStr = phone; }
 
     public Bitmap getIcon() { return this.iconBitmap ; }
@@ -30,7 +30,7 @@ public class my_qr_item {
     }
     public String getAddress() { return this.addressStr ; }
     public String getDetailAddress(){ return this.detailaddressStr ; }
-    public Drawable getTemp() {return this.tempDrawble;}
+    public boolean getTemp() {return this.tempDrawble;}
     public String getPhone() {
         return this.phoneStr ;
     }

@@ -79,7 +79,10 @@ public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder
         holder.icon.setImageBitmap(item.getIcon());
         holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDetailAddress());
-        holder.temp.setImageDrawable(item.getTemp());
+        if(item.getTemp()==false)
+        holder.temp.setImageResource(R.drawable.ic_baseline_how_to_reg_24g);
+        else
+            holder.temp.setImageResource(R.drawable.ic_baseline_how_to_reg_24);
 
     }
 

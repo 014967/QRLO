@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 
 import java.io.ByteArrayOutputStream;
@@ -22,11 +23,12 @@ public class CreateQrActivity extends AppCompatActivity {
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private static final int ADD_LOGO = 10001;
+    boolean imgchanged = false;
 
     Button btnAddress, btnOK;
     EditText address, detailAddress, phone, name;
     Switch isTemperature;
-    ImageButton addLogo;
+    ImageView addLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +54,36 @@ public class CreateQrActivity extends AppCompatActivity {
                 }
             });
 
+        addLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, ADD_LOGO);
+            }
+        });
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
-                Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
 
-                outIntent.putExtra("Logo", byteArray);
+                if(imgchanged==true) {
+                    Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    outIntent.putExtra("Logo", byteArray);
+                }
+                else {
+                    Drawable drawable = getResources().getDrawable(R.drawable.base);
+                    Bitmap bitmap2 = ((BitmapDrawable)drawable).getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray2 = stream.toByteArray();
+                    outIntent.putExtra("Logo", byteArray2);
+                }
                 outIntent.putExtra("Address", address.getText().toString());
                 outIntent.putExtra("Temperature", isTemperature.isChecked());
                 outIntent.putExtra("Detail address", detailAddress.getText().toString());
@@ -75,15 +96,7 @@ public class CreateQrActivity extends AppCompatActivity {
         });
 
 
-        addLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, ADD_LOGO);
-            }
-        });
+
      }
 
 
@@ -106,6 +119,8 @@ public class CreateQrActivity extends AppCompatActivity {
                         Bitmap img = BitmapFactory.decodeStream(in);
                         in.close();
                         addLogo.setImageBitmap(img);
+                        imgchanged=true;
+
                     }catch (Exception e){
 
                     }
@@ -113,6 +128,7 @@ public class CreateQrActivity extends AppCompatActivity {
                 else if(resultCode == RESULT_CANCELED)
                 {
                 }
+                break;
         }
     }
 }
