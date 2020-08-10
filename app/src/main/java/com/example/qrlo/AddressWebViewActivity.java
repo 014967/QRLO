@@ -10,7 +10,8 @@ import android.webkit.WebView;
 
 public class AddressWebViewActivity extends AppCompatActivity {
 
-    private final static String serverUrl = "http://qrlo-798fd.firebaseapp.com/daum.html";
+    private final static String serverUrl = "https://qrlo-798fd.web.app/daum.html";
+    private final static String AppName = "QRLO";
 
     private WebView browser;
 
@@ -19,10 +20,10 @@ public class AddressWebViewActivity extends AppCompatActivity {
     {
         @JavascriptInterface
         @SuppressWarnings("unused")
-        public void processDATA(String data) {
+        public void processDATA(String data, String data2, String data3) {
             Bundle extra = new Bundle();
             Intent intent = new Intent();
-            extra.putString("data", data);
+            extra.putString("data", data + " " + data2 + " " + data3);
             intent.putExtras(extra);
             setResult(RESULT_OK, intent);
             finish();
@@ -38,32 +39,8 @@ public class AddressWebViewActivity extends AppCompatActivity {
 
         browser = findViewById(R.id.webView);
         browser.getSettings().setJavaScriptEnabled(true);
-        browser.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
+        browser.addJavascriptInterface(new MyJavaScriptInterface(), "QRLO");
 
-        // 필요 없는 부분 같음
-        /*
-        browser.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                browser.loadUrl("javascript:sample2_execDaumPostcode();");
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                browser.loadUrl("javascript:sample2_execDaumPostcode();");
-                browser.loadUrl("javascript:testEcho('Hello World!')");
-                browser.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        browser.loadUrl("javascript:sample2_execDaumPostcode();");
-                    }
-                });
-                Log.d("log", "asd");
-            }
-        });
-
-         */
-
-        browser.loadUrl(serverUrl);
+        browser.loadUrl("https://qrlo-798fd.web.app/daum.html");
     }
 }
