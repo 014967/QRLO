@@ -10,9 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 
@@ -28,7 +26,7 @@ public class CreateQrActivity extends AppCompatActivity {
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private static final int ADD_LOGO = 10001;
-    boolean imgchanged = false;
+    boolean isImgChanged = false;
 
     Button btnAddress, btnOK;
     EditText address, detailAddress, phone, name;
@@ -79,7 +77,7 @@ public class CreateQrActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
 
-                if(imgchanged==true) {
+                if(isImgChanged) {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -116,8 +114,6 @@ public class CreateQrActivity extends AppCompatActivity {
             }
         });
 
-
-
      }
 
 
@@ -140,7 +136,7 @@ public class CreateQrActivity extends AppCompatActivity {
                         Bitmap img = BitmapFactory.decodeStream(in);
                         in.close();
                         addLogo.setImageBitmap(img);
-                        imgchanged=true;
+                        isImgChanged =true;
 
                     }catch (Exception e){
 
