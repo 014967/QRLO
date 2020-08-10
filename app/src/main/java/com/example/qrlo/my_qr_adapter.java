@@ -21,10 +21,21 @@ public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder
         mData = list;
     }
 
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos);
+    }
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView icon;
         TextView title;
         TextView desc;
+        ImageView temp;
 
         ViewHolder(View itemView){
             super(itemView);
@@ -32,8 +43,19 @@ public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder
             icon = itemView.findViewById(R.id.my_qr_item_image);
             title = itemView.findViewById(R.id.my_qr_item_txt1);
             desc = itemView.findViewById(R.id.my_qr_item_txt2);
+            temp = itemView.findViewById(R.id.my_qr_item_image2);
 
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        if(mListener != null){
+                            mListener.onItemClick(view, pos);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -54,9 +76,13 @@ public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder
 
         my_qr_item item = mData.get(position);
 
-        holder.icon.setImageDrawable(item.getIcon());
+        holder.icon.setImageBitmap(item.getIcon());
         holder.title.setText(item.getTitle());
-        holder.desc.setText(item.getDesc());
+        holder.desc.setText(item.getDetailAddress());
+        if(item.getTemp()==false)
+        holder.temp.setImageResource(R.drawable.ic_baseline_how_to_reg_24g);
+        else
+            holder.temp.setImageResource(R.drawable.ic_baseline_how_to_reg_24);
 
     }
 

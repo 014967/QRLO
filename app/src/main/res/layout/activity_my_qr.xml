@@ -12,7 +12,7 @@
         android:text="내 QR목록"
         android:layout_centerHorizontal="true"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/myQR_addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
