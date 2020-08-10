@@ -30,7 +30,7 @@ public class Bottom_Administor extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v= inflater.inflate(R.layout.activity_bottom__history, container, false);
+        View v= inflater.inflate(R.layout.activity_bottom__administor, container, false);
         button = v.findViewById(R.id.gotoHong);
 
         button.setOnClickListener(new View.OnClickListener() {
