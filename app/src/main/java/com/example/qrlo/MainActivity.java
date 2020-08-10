@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     EditText Email;
     EditText PassWord;
     Button Login_Button;
-    private TextView SignUp;
+    private Button SignUp;
 
 
     private SignInButton btn_google;
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         stEmail = getIntent().getStringExtra("stEmail");
         stPassWord = getIntent().getStringExtra("stPassWord");
 
-        SignUp = (TextView)findViewById(R.id.textView2);
+        SignUp = (Button)findViewById(R.id.btn_join_mobile);
         FacebookButton = findViewById(R.id.facebook_button);
 
 
