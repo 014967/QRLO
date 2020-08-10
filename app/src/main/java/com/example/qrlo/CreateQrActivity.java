@@ -50,7 +50,9 @@ public class CreateQrActivity extends AppCompatActivity {
         btnOK = findViewById(R.id.create_qr_ok);
         btnAddress = findViewById(R.id.create_qr_address_btn);
 
-
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         if (btnAddress != null)
@@ -98,7 +100,16 @@ public class CreateQrActivity extends AppCompatActivity {
                 outIntent.putExtra("QR name", name.getText().toString());
                 outIntent.putExtra("Phone number", phone.getText().toString());
 
+                my_qr_item item = new my_qr_item();
+                item.setTitle(name.getText().toString());
+                item.setAddress(address.getText().toString());
+                item.setDetailAddress(detailAddress.getText().toString());
+                item.setTemp(isTemperature.isChecked());
+                item.setPhone(phone.getText().toString());
+
                 setResult(RESULT_OK, outIntent);
+
+                databaseReference.child("user").child(user.getUid()).child("myQR").push().setValue(item);
                 finish();
 
 

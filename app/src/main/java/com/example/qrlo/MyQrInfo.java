@@ -18,6 +18,11 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
@@ -42,6 +47,10 @@ public class MyQrInfo extends Activity {
         share = findViewById(R.id.qr_info_share_imgbtn);
         mod = findViewById(R.id.qr_info_mod_btn);
         del = findViewById(R.id.qr_info_del_btn);
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Intent inIntent = getIntent();
         byte[] byteArray = inIntent.getByteArrayExtra("Logo");
@@ -90,7 +99,17 @@ public class MyQrInfo extends Activity {
                         outIntent.putExtra("Phone number", phone.getText().toString());
                         outIntent.putExtra("Position", pos);
 
+                        my_qr_item item = new my_qr_item();
+                        item.setTitle(name.getText().toString());
+                        item.setAddress(address.getText().toString());
+                        item.setDetailAddress(detailAddress.getText().toString());
+                        item.setTemp(isTemperature.isChecked());
+                        item.setPhone(phone.getText().toString());
+
                         setResult(RESULT_OK, outIntent);
+
+                        databaseReference.child("user").child(user.getUid()).child("myQR").push().setValue(item);
+
                         finish();
                     }
                 });
