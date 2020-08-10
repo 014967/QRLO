@@ -134,12 +134,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="수정"
+            android:src="@drawable/ic_baseline_create_24"
+            android:layout_marginRight="30dp"
             />
         <ImageView
             android:id="@+id/qr_info_del_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="삭제"
+            android:src="@drawable/ic_baseline_delete_24"
             />
     </LinearLayout>
 

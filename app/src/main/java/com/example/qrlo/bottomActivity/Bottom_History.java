@@ -17,7 +17,7 @@ import com.example.qrlo.MyQrActivity;
 import com.example.qrlo.R;
 public class Bottom_History extends Fragment {
 
-    Button button;
+
     public Bottom_History()
     {
 
@@ -28,17 +28,6 @@ public class Bottom_History extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.activity_bottom__history, container, false);
-
-        button = v.findViewById(R.id.gotoHong);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getContext(), MyQrActivity.class);
-                startActivity(in);
-            }
-        });
 
 
 
@@ -53,6 +42,9 @@ public class Bottom_History extends Fragment {
 
 
 
-        return v;
+
+
+
+        return inflater.inflate(R.layout.activity_bottom__administor, container, false);
     }
 }
