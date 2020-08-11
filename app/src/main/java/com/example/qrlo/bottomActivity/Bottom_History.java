@@ -26,7 +26,7 @@ public class Bottom_History extends Fragment {
     RecyclerView rvGroup;
     ArrayList<String> arrayList;
     LinearLayoutManager layoutManagerGroup;
-    GroupAdp adapterGroup;
+    //GroupAdp adapterGroup;
 
 
 
