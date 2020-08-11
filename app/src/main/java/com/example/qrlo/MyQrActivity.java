@@ -12,9 +12,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -28,6 +37,9 @@ public class MyQrActivity extends Activity {
     private static final int QR_CREATE = 10002;
     private static final int ITEM_SELECT = 10003;
 
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +50,40 @@ public class MyQrActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new my_qr_adapter(mList);
         recyclerView.setAdapter(adapter);
+
+
+        databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                my_qr_item item = snapshot.getValue(my_qr_item.class);
+                mList.add(item);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
 
         btnadd = findViewById(R.id.myQR_addBtn);
         btnadd.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +136,7 @@ public class MyQrActivity extends Activity {
                     item.setTemp(temp);
                     item.setPhone(phone);
 
-                    mList.add(item);
+                    databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
                     adapter.notifyDataSetChanged();
                 }
                 break;
