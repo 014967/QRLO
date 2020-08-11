@@ -36,13 +36,7 @@
                 android:gravity="center"
                 android:text="@string/assignment1" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="@string/assginment2"
-                android:textColor="@color/colorPrimaryDark" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -50,7 +44,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="bottom">
-
+            <Button
+                android:id="@+id/btn_join_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/assginment2"
+                android:textColor="@color/colorPrimaryDark" />
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebook_button"
                 android:layout_width="match_parent"
