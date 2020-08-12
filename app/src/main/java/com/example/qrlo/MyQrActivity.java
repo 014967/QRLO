@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -107,17 +108,18 @@ public class MyQrActivity extends Activity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case QR_CREATE:
                 if(resultCode == RESULT_OK) {
-
+                    Toast.makeText(getApplicationContext(), "생성되었습니다", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case QR_INFO:
                 if(resultCode == RESULT_OK) {
-                  mList.remove(data.getIntExtra("Position", 1));
+
                 }
                 break;
         }

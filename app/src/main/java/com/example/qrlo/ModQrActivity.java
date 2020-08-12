@@ -148,7 +148,7 @@ public class ModQrActivity extends AppCompatActivity {
                                 item1.setTemp(isTemperature.isChecked());
                                 item1.setPhone(phone.getText().toString());
                                 String key = databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().getKey();
-                                item.setKey(key);
+                                item1.setKey(key);
                                 databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item1);
                             }
 
@@ -157,12 +157,18 @@ public class ModQrActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Drawable drawable = getResources().getDrawable(R.drawable.base);
-                    Bitmap bitmap2 = ((BitmapDrawable)drawable).getBitmap();
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byte[] byteArray2 = stream.toByteArray();
-                    outIntent.putExtra("Logo", byteArray2);
+                    my_qr_item item2 = new my_qr_item();
+
+                    String photoUrl = "https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/fxW4atnXfngfAc2lqiXvHaWQVTW2%2FThu%20Aug%2013%2004%3A59%3A00%20GMT%2B09%3A00%202020.jpg?alt=media&token=d1a0b1e4-0995-4f66-a3da-4d81819e89c4";
+                    item2.setIconURI(photoUrl);
+                    item2.setTitle(name.getText().toString());
+                    item2.setAddress(address.getText().toString());
+                    item2.setDetailAddress(detailAddress.getText().toString());
+                    item2.setTemp(isTemperature.isChecked());
+                    item2.setPhone(phone.getText().toString());
+                    String key = databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().getKey();
+                    item2.setKey(key);
+                    databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item);
                 }//로고가 없는 상태에서도 넘어가게 만들어야됨
 
                 outIntent.putExtra("Position", pos);
