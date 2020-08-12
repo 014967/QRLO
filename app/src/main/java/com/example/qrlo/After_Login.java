@@ -1,7 +1,6 @@
 package com.example.qrlo;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -30,6 +29,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 
 public class After_Login extends AppCompatActivity {
 
@@ -51,7 +55,8 @@ public class After_Login extends AppCompatActivity {
         setContentView(R.layout.activity_after__login);
 
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+
+        AnimatedBottomBar animatedBottomBar = (AnimatedBottomBar)findViewById(R.id.bottom_navigation);
         frameLayout = (FrameLayout)findViewById(R.id.navigation_frame);
         Bottom_Home = new Bottom_Home();
         Bottom_History = new Bottom_History();
@@ -69,49 +74,44 @@ public class After_Login extends AppCompatActivity {
         fragmentTransaction.commit();
 
 
-
-
-
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        animatedBottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId())
+            public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab lasTab, int i1, @NotNull AnimatedBottomBar.Tab newTab) {
+                switch(newTab.getId())
                 {
-
                     case  R.id.navigation_home :
                         fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Home );
                         fragmentTransaction.commit();
 
-                        return true;
+                        break;
 
                     case R.id.navigation_history :
                         fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_History );
                         fragmentTransaction.commit();
 
-                        return true;
+                        break;
                     case R.id.navigation_setting :
                         fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Setting );
                         fragmentTransaction.commit();
 
 
-                        return true;
+                        break;
                     case R.id.navigation_administor :
                         fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Administor );
                         fragmentTransaction.commit();
 
-                        return true;
-
-
+                        break;
                 }
-                return false;
+
+            }
+
+            @Override
+            public void onTabReselected(int i, @NotNull AnimatedBottomBar.Tab tab) {
+
             }
         });
 
@@ -121,7 +121,7 @@ public class After_Login extends AppCompatActivity {
     }
 
 
-    private void setFragment(Fragment fragment)
+    private void setFragment(Fragment frag)
     {
 
     }

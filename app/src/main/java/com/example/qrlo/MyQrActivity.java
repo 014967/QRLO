@@ -58,8 +58,6 @@ public class MyQrActivity extends Activity {
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
