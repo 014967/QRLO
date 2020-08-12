@@ -1,46 +1,38 @@
 package com.example.qrlo;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class MyQrInfo extends Activity {
 
-    ImageView share, logo, mod, del;
-    TextView address, phone;
+    private static final int QR_CREATE = 10002;
     private static final int QR_MOD = 10001;
+    private static final int HEIGHT = 200;
+    private static final int WIDTH = 200;
+    ImageView share, qr, mod, del;
+    TextView address, phone;
     my_qr_item item = new my_qr_item();
     int pos;
+    Bitmap qrBit;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -51,7 +43,7 @@ public class MyQrInfo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_info);
 
-        logo = findViewById(R.id.qr_info_logo_img);
+        qr = findViewById(R.id.qr_info_qr_img);
         share = findViewById(R.id.qr_info_share_imgbtn);
         mod = findViewById(R.id.qr_info_mod_btn);
         del = findViewById(R.id.qr_info_del_btn);
@@ -68,10 +60,21 @@ public class MyQrInfo extends Activity {
         item.setPhone(inIntent.getStringExtra("Phone number"));
         item.setKey(inIntent.getStringExtra("Key"));
         pos = inIntent.getIntExtra("Position", 0);
+        item.updateQR();
 
+        // QR 코드 생성
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try{
+            BitMatrix bitMatrix = multiFormatWriter.encode(item.getStrQR(), BarcodeFormat.QR_CODE, WIDTH, HEIGHT);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            qrBit = barcodeEncoder.createBitmap(bitMatrix);
+            qr.setImageBitmap(qrBit);
+        }catch (Exception e){
+            Log.w("MY_QR_INFO", e.getMessage());
+        }
 
         setTitle(item.getTitle());
-        Glide.with(getApplicationContext()).load(item.getIconURI()).into(logo);
+        //Glide.with(getApplicationContext()).load(item.getIconURI()).into(qr);
         address.setText(item.getAddress());
         phone.setText(item.getPhone());
 

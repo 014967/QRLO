@@ -97,6 +97,16 @@ public class CreateQrActivity extends AppCompatActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // 빈 칸이 있으면 종료되지 않음
+                if(name.getText().toString().equals("") ||
+                    address.getText().toString().equals("") ||
+                    detailAddress.getText().toString().equals("") ||
+                    phone.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"정보를 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
 
                 if(isImgChanged) {
