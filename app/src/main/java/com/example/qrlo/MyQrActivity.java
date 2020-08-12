@@ -115,21 +115,16 @@ public class MyQrActivity extends Activity {
         adapter.setOnItemClickListener(new my_qr_adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
-                my_qr_item item = new my_qr_item();
-                item = mList.get(pos);
-                Bitmap bitmap = item.getIcon();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
                 Intent intent = new Intent(getApplicationContext(), MyQrInfo.class);
-                intent.putExtra("Logo", byteArray);
-                intent.putExtra("ImageURL", item.getIconURI());
+                my_qr_item item = mList.get(pos);
                 intent.putExtra("QR name", item.getTitle());
+                intent.putExtra("ImageURL", item.getIconURI());
                 intent.putExtra("Address", item.getAddress());
                 intent.putExtra("Detail address", item.getDetailAddress());
-                intent.putExtra("Phone", item.getPhone());
                 intent.putExtra("Temperature", item.getTemp());
+                intent.putExtra("Phone number", item.getPhone());
                 intent.putExtra("Position", pos);
+
                 startActivityForResult(intent, ITEM_SELECT);
             }
         });

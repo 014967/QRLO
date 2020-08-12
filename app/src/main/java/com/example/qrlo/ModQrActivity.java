@@ -45,6 +45,8 @@ public class ModQrActivity extends AppCompatActivity {
     EditText address, detailAddress, phone, name;
     Switch isTemperature;
     ImageView addLogo;
+    my_qr_item item = new my_qr_item();
+    int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class ModQrActivity extends AppCompatActivity {
         btnOK = findViewById(R.id.create_qr_ok);
         btnAddress = findViewById(R.id.create_qr_address_btn);
 
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -70,8 +73,21 @@ public class ModQrActivity extends AppCompatActivity {
         final String imagedata = firebaseUser.getUid()+"/"+date.toString()+".jpg";
         final StorageReference storageReference = firebaseStorage.getReference().child(imagedata);
 
+        Intent inIntent = getIntent();
 
+        item.setTitle(inIntent.getStringExtra("QR name"));
+        item.setIconURI(inIntent.getStringExtra("ImageURL"));
+        item.setAddress(inIntent.getStringExtra("Address"));
+        item.setDetailAddress(inIntent.getStringExtra("Detail address"));
+        item.setTemp(inIntent.getBooleanExtra("Temperature", false));
+        item.setPhone(inIntent.getStringExtra("Phone number"));
+        pos = inIntent.getIntExtra("Position", 0);
 
+        name.setText(item.getTitle());
+        address.setText(item.getAddress());
+        detailAddress.setText(item.getDetailAddress());
+        isTemperature.setChecked(item.getTemp());
+        phone.setText(item.getPhone());
 
 
         if (btnAddress != null)
