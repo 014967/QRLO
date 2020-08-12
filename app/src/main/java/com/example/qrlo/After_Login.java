@@ -121,7 +121,7 @@ public class After_Login extends AppCompatActivity {
     }
 
 
-    private void setFragment(Fragment fragment)
+    private void setFragment(Fragment frag)
     {
 
     }
