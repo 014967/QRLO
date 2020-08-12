@@ -131,7 +131,9 @@ public class CreateQrActivity extends AppCompatActivity {
                                 item.setDetailAddress(detailAddress.getText().toString());
                                 item.setTemp(isTemperature.isChecked());
                                 item.setPhone(phone.getText().toString());
-                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
+                                String key = databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().getKey();
+                                item.setKey(key);
+                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item);
                             }
 
                         }

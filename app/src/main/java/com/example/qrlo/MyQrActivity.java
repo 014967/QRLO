@@ -2,17 +2,8 @@ package com.example.qrlo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -20,16 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestFutureTarget;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -37,12 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MyQrActivity extends Activity {
@@ -52,7 +28,7 @@ public class MyQrActivity extends Activity {
     my_qr_adapter adapter;
     ArrayList<my_qr_item> mList = new ArrayList<my_qr_item>();
     private static final int QR_CREATE = 10002;
-    private static final int ITEM_SELECT = 10003;
+    private static final int QR_INFO = 10003;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -124,8 +100,9 @@ public class MyQrActivity extends Activity {
                 intent.putExtra("Temperature", item.getTemp());
                 intent.putExtra("Phone number", item.getPhone());
                 intent.putExtra("Position", pos);
+                intent.putExtra("Key", item.getKey());
 
-                startActivityForResult(intent, ITEM_SELECT);
+                startActivityForResult(intent, QR_INFO);
             }
         });
     }
@@ -138,26 +115,9 @@ public class MyQrActivity extends Activity {
 
                 }
                 break;
-            case ITEM_SELECT:
+            case QR_INFO:
                 if(resultCode == RESULT_OK) {
-                    String title = data.getStringExtra("QR name");
-                    String desc = data.getStringExtra("Detail address");
-                    boolean temp = data.getBooleanExtra("Temperature", false);
-                    byte[] byteArray = data.getByteArrayExtra("Logo");
-                    String address = data.getStringExtra("Address");
-                    String phone = data.getStringExtra("Phone number");
-                    int pos = data.getIntExtra("Position", 0);
-                    Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                    my_qr_item item = new my_qr_item();
-                    item = mList.get(pos);
-                    item.setIcon(image);
-                    item.setTitle(title);
-                    item.setAddress(address);
-                    item.setDetailAddress(desc);
-                    item.setTemp(temp);
-                    item.setPhone(phone);
-
-                    adapter.notifyDataSetChanged();
+                  mList.remove(data.getIntExtra("Position", 1));
                 }
                 break;
         }

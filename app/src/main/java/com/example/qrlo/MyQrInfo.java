@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +38,6 @@ public class MyQrInfo extends Activity {
 
     ImageView share, logo, mod, del;
     TextView address, phone;
-    private static final int QR_CREATE = 10002;
     private static final int QR_MOD = 10001;
     my_qr_item item = new my_qr_item();
     int pos;
@@ -66,6 +66,7 @@ public class MyQrInfo extends Activity {
         item.setDetailAddress(inIntent.getStringExtra("Detail address"));
         item.setTemp(inIntent.getBooleanExtra("Temperature", false));
         item.setPhone(inIntent.getStringExtra("Phone number"));
+        item.setKey(inIntent.getStringExtra("Key"));
         pos = inIntent.getIntExtra("Position", 0);
 
 
@@ -93,6 +94,7 @@ public class MyQrInfo extends Activity {
                 intent.putExtra("Temperature", item.getTemp());
                 intent.putExtra("Phone number", item.getPhone());
                 intent.putExtra("Position", pos);
+                intent.putExtra("Key", item.getKey());
 
                 startActivityForResult(intent, QR_MOD);
 
@@ -113,9 +115,12 @@ public class MyQrInfo extends Activity {
         super.onActivityResult(requestCode, resultCode, intent);
 
         switch(requestCode){
-            case QR_CREATE:
+            case QR_MOD:
                 if(resultCode == RESULT_OK) {
-
+                    Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
+                    databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 break;
         }

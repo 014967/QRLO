@@ -13,6 +13,7 @@ public class my_qr_item {
     private boolean tempDrawable;
     private String phoneStr;
     private String strQR;
+    private String keyStr;
 
     public void setIcon(Bitmap icon) {
         iconBitmap = icon;
@@ -42,6 +43,10 @@ public class my_qr_item {
 
     public void setStrQR(String qr){
         strQR = qr;
+    }
+
+    public void setKey(String key) {
+        keyStr = key;
     }
 
     public void updateQR() {
@@ -78,5 +83,9 @@ public class my_qr_item {
 
     public String getStrQR(){
         return this.strQR;
+    }
+
+    public String getKey() {
+        return this.keyStr;
     }
 }

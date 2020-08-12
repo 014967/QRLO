@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -83,6 +84,7 @@ public class ModQrActivity extends AppCompatActivity {
         item.setPhone(inIntent.getStringExtra("Phone number"));
         pos = inIntent.getIntExtra("Position", 0);
 
+        Glide.with(getApplicationContext()).load(item.getIconURI()).into(addLogo);
         name.setText(item.getTitle());
         address.setText(item.getAddress());
         detailAddress.setText(item.getDetailAddress());
@@ -112,14 +114,13 @@ public class ModQrActivity extends AppCompatActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
+                Intent outIntent = new Intent(getApplicationContext(), MyQrInfo.class);
 
                 if(isImgChanged) {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
-                    outIntent.putExtra("Logo", byteArray);
 
                     UploadTask uploadTask = storageReference.putBytes(byteArray);
 
@@ -138,15 +139,17 @@ public class ModQrActivity extends AppCompatActivity {
                                 Uri downloadUrl = task.getResult();
                                 String photoUrl = String.valueOf(downloadUrl);
 
-                                my_qr_item item = new my_qr_item();
+                                my_qr_item item1 = new my_qr_item();
 
-                                item.setIconURI(photoUrl);
-                                item.setTitle(name.getText().toString());
-                                item.setAddress(address.getText().toString());
-                                item.setDetailAddress(detailAddress.getText().toString());
-                                item.setTemp(isTemperature.isChecked());
-                                item.setPhone(phone.getText().toString());
-                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
+                                item1.setIconURI(photoUrl);
+                                item1.setTitle(name.getText().toString());
+                                item1.setAddress(address.getText().toString());
+                                item1.setDetailAddress(detailAddress.getText().toString());
+                                item1.setTemp(isTemperature.isChecked());
+                                item1.setPhone(phone.getText().toString());
+                                String key = databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().getKey();
+                                item.setKey(key);
+                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item1);
                             }
 
                         }
@@ -162,7 +165,7 @@ public class ModQrActivity extends AppCompatActivity {
                     outIntent.putExtra("Logo", byteArray2);
                 }//로고가 없는 상태에서도 넘어가게 만들어야됨
 
-
+                outIntent.putExtra("Position", pos);
                 setResult(RESULT_OK, outIntent);
 
                 finish();
