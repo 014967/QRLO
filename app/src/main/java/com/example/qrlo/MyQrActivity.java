@@ -25,6 +25,8 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestFutureTarget;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -39,6 +41,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MyQrActivity extends Activity {
@@ -55,6 +59,8 @@ public class MyQrActivity extends Activity {
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +75,9 @@ public class MyQrActivity extends Activity {
         databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                my_qr_item item = snapshot.getValue(my_qr_item.class);
+                final my_qr_item item = snapshot.getValue(my_qr_item.class);
+
+
                 mList.add(item);
                 adapter.notifyDataSetChanged();
             }
@@ -135,32 +143,7 @@ public class MyQrActivity extends Activity {
         switch (requestCode) {
             case QR_CREATE:
                 if(resultCode == RESULT_OK) {
-                    String title = data.getStringExtra("QR name");
-                    String desc = data.getStringExtra("Detail address");
-                    boolean temp = data.getBooleanExtra("Temperature", false);
-                    Uri image  = data.getData();
-                    String address = data.getStringExtra("Address");
-                    String phone = data.getStringExtra("Phone number");
-                    final my_qr_item item = new my_qr_item();
 
-
-                    Glide.with(getApplicationContext()).asBitmap().load(image).into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        item.setIcon(resource);
-                        btnadd.setImageBitmap(resource);
-                        }
-                    });
-
-                    //item.setIconURI(image);
-                    item.setTitle(title);
-                    item.setAddress(address);
-                    item.setDetailAddress(desc);
-                    item.setTemp(temp);
-                    item.setPhone(phone);
-                    mList.add(item);
-
-                    adapter.notifyDataSetChanged();
                 }
                 break;
             case ITEM_SELECT:
