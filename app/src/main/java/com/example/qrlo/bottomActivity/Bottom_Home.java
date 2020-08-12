@@ -34,6 +34,7 @@ import java.io.IOException;
 
 public class Bottom_Home extends Fragment {
 
+    private static final String QR_CERTI = "qrlo-798fd";
 
     Camera camera;
     SurfaceView surfaceView;
@@ -115,10 +116,16 @@ public class Bottom_Home extends Fragment {
                             Intent in = new Intent(getContext(), corona19_check.class);
                             String QRvalue = qrCodes.valueAt(0).displayValue;
                             Log.d(TAG, QRvalue);
-                            in.putExtra("QRvalue", QRvalue);
-                            startActivity(in);
-
-
+                            try{
+                                String[] isQRLO = QRvalue.split(":");
+                                if(isQRLO[0].equals(QR_CERTI)){
+                                    in.putExtra("QRvalue", isQRLO[1]);
+                                    startActivity(in);
+                                }
+                            }
+                            catch (Exception e){
+                                Log.w("QR_READ", e.getMessage());
+                            }
                         }
                     }
 
