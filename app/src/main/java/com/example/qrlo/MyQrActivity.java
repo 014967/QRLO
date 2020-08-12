@@ -47,7 +47,6 @@ import java.util.ArrayList;
 
 public class MyQrActivity extends Activity {
 
-    Bitmap bitmap;
     ImageView btnadd;
     RecyclerView recyclerView;
     my_qr_adapter adapter;
@@ -75,8 +74,7 @@ public class MyQrActivity extends Activity {
         databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                final my_qr_item item = snapshot.getValue(my_qr_item.class);
-
+                my_qr_item item = snapshot.getValue(my_qr_item.class);
 
                 mList.add(item);
                 adapter.notifyDataSetChanged();
@@ -127,10 +125,11 @@ public class MyQrActivity extends Activity {
                 byte[] byteArray = stream.toByteArray();
                 Intent intent = new Intent(getApplicationContext(), MyQrInfo.class);
                 intent.putExtra("Logo", byteArray);
+                intent.putExtra("ImageURL", item.getIconURI());
                 intent.putExtra("QR name", item.getTitle());
                 intent.putExtra("Address", item.getAddress());
                 intent.putExtra("Detail address", item.getDetailAddress());
-                intent.putExtra("Phone number", item.getPhone());
+                intent.putExtra("Phone", item.getPhone());
                 intent.putExtra("Temperature", item.getTemp());
                 intent.putExtra("Position", pos);
                 startActivityForResult(intent, ITEM_SELECT);
