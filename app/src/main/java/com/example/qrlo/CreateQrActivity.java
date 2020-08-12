@@ -1,5 +1,6 @@
 package com.example.qrlo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +16,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CreateQrActivity extends AppCompatActivity {
 
@@ -50,7 +59,15 @@ public class CreateQrActivity extends AppCompatActivity {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        final String imagedata = firebaseUser.getUid()+"/"+date.toString()+".jpg";
+        final StorageReference storageReference = firebaseStorage.getReferenceFromUrl("gs://qrlo-798fd.appspot.com").child(imagedata);
+
+
 
 
         if (btnAddress != null)
@@ -76,6 +93,7 @@ public class CreateQrActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
+                my_qr_item item = new my_qr_item();
 
                 if(isImgChanged) {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
@@ -83,6 +101,19 @@ public class CreateQrActivity extends AppCompatActivity {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
                     outIntent.putExtra("Logo", byteArray);
+
+                   storageReference.putBytes(byteArray).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                       @Override
+                       public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                       }
+                   }).addOnFailureListener(new OnFailureListener() {
+                       @Override
+                       public void onFailure(@NonNull Exception e) {
+
+                       }
+                   });
+                    item.setIconURI("gs://qrlo-798fd.appspot.com"+imagedata);
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.base);
@@ -92,13 +123,13 @@ public class CreateQrActivity extends AppCompatActivity {
                     byte[] byteArray2 = stream.toByteArray();
                     outIntent.putExtra("Logo", byteArray2);
                 }
+                outIntent.putExtra("ImageURL", imagedata);
                 outIntent.putExtra("Address", address.getText().toString());
                 outIntent.putExtra("Temperature", isTemperature.isChecked());
                 outIntent.putExtra("Detail address", detailAddress.getText().toString());
                 outIntent.putExtra("QR name", name.getText().toString());
                 outIntent.putExtra("Phone number", phone.getText().toString());
 
-                my_qr_item item = new my_qr_item();
                 item.setTitle(name.getText().toString());
                 item.setAddress(address.getText().toString());
                 item.setDetailAddress(detailAddress.getText().toString());
@@ -107,7 +138,7 @@ public class CreateQrActivity extends AppCompatActivity {
 
                 setResult(RESULT_OK, outIntent);
 
-                databaseReference.child("user").child(user.getUid()).child("myQR").push().setValue(item);
+                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
                 finish();
 
 
@@ -136,7 +167,9 @@ public class CreateQrActivity extends AppCompatActivity {
                         Bitmap img = BitmapFactory.decodeStream(in);
                         in.close();
                         addLogo.setImageBitmap(img);
+
                         isImgChanged =true;
+
 
                     }catch (Exception e){
 

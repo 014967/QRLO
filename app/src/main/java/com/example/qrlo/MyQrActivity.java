@@ -6,7 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +20,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestFutureTarget;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -24,12 +35,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class MyQrActivity extends Activity {
 
+    Bitmap bitmap;
     ImageView btnadd;
     RecyclerView recyclerView;
     my_qr_adapter adapter;
@@ -124,19 +138,28 @@ public class MyQrActivity extends Activity {
                     String title = data.getStringExtra("QR name");
                     String desc = data.getStringExtra("Detail address");
                     boolean temp = data.getBooleanExtra("Temperature", false);
-                    byte[] byteArray = data.getByteArrayExtra("Logo");
+                    Uri image  = data.getData();
                     String address = data.getStringExtra("Address");
                     String phone = data.getStringExtra("Phone number");
-                    Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                    my_qr_item item = new my_qr_item();
-                    item.setIcon(image);
+                    final my_qr_item item = new my_qr_item();
+
+
+                    Glide.with(getApplicationContext()).asBitmap().load(image).into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        item.setIcon(resource);
+                        btnadd.setImageBitmap(resource);
+                        }
+                    });
+
+                    //item.setIconURI(image);
                     item.setTitle(title);
                     item.setAddress(address);
                     item.setDetailAddress(desc);
                     item.setTemp(temp);
                     item.setPhone(phone);
+                    mList.add(item);
 
-                    databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
                     adapter.notifyDataSetChanged();
                 }
                 break;

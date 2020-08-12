@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 public class my_qr_item {
     private Bitmap iconBitmap;
+    private String iconURI;
     private String titleStr;
     private String addressStr;
     private String detailAddressStr;
@@ -15,6 +16,8 @@ public class my_qr_item {
     public void setIcon(Bitmap icon) {
         iconBitmap = icon;
     }
+
+    public void setIconURI(String iconUri){iconURI = iconUri;}
 
     public void setTitle(String title) {
         titleStr = title;
@@ -47,6 +50,10 @@ public class my_qr_item {
 
     public Bitmap getIcon() {
         return this.iconBitmap;
+    }
+
+    public String getIconURI() {
+        return this.iconURI;
     }
 
     public String getTitle() {
