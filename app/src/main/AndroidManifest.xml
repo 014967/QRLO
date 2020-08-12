@@ -37,6 +37,7 @@ package="com.example.qrlo">
     <activity android:name=".After_Login" />
     <activity android:name=".MyQrInfo" />
     <activity android:name=".MyQrActivity" />
+    <activity android:name=".ModQrActivity"/>
     <activity android:name=".MainActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

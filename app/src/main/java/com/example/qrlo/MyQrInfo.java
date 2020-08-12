@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -28,93 +29,69 @@ import java.io.InputStream;
 
 public class MyQrInfo extends Activity {
 
-    EditText address, detailAddress, phone, name;
-    CheckBox isTemperature;
     ImageView share, logo, mod, del;
-    private static final int ADD_LOGO = 10001;
+    TextView address, phone;
+    private static final int QR_CREATE = 10002;
+    private static final int QR_MOD = 10001;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_info);
 
-        address = findViewById(R.id.qr_info_address_edit);
-        detailAddress = findViewById(R.id.qr_info_detail_address_edit);
-        phone = findViewById(R.id.qr_info_phone_number_edit);
-        name = findViewById(R.id.qr_info_qr_name_edit);
-        isTemperature = findViewById(R.id.qr_info_is_temperature_check);
         logo = findViewById(R.id.qr_info_logo_img);
         share = findViewById(R.id.qr_info_share_imgbtn);
         mod = findViewById(R.id.qr_info_mod_btn);
         del = findViewById(R.id.qr_info_del_btn);
+        address = findViewById(R.id.qr_info_qr_address_txt);
+        phone = findViewById(R.id.qr_info_phone_txt);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Intent inIntent = getIntent();
+
+        setTitle(inIntent.getStringExtra("QR name"));
+
         byte[] byteArray = inIntent.getByteArrayExtra("Logo");
-        final int pos = inIntent.getIntExtra("Position", 0);
         Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         logo.setImageBitmap(image);
-        name.setText(inIntent.getStringExtra("QR name"));
-        address.setText(inIntent.getStringExtra("Address"));
-        detailAddress.setText(inIntent.getStringExtra("Detail address"));
-        if(inIntent.getBooleanExtra("Temperature", false)==false)
-            isTemperature.setChecked(false);
-        else
-            isTemperature.setChecked(true);
-        phone.setText(inIntent.getStringExtra("Phone number"));
 
-        logo.setOnClickListener(new View.OnClickListener() {
+        address.setText(inIntent.getStringExtra("Address"));
+        phone.setText(inIntent.getStringExtra("Phone"));
+
+
+        final int pos = inIntent.getIntExtra("Position", 0);
+
+        share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, ADD_LOGO);
+
             }
         });
 
         mod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder dlg = new AlertDialog.Builder(MyQrInfo.this);
-                dlg.setMessage("수정하시겠습니까?");
-                dlg.setNegativeButton("아니오", null);
-                dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ModQrActivity.class);
+                my_qr_item item = new my_qr_item();
 
-                        Bitmap bitmap = ((BitmapDrawable)logo.getDrawable()).getBitmap();
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
-                        outIntent.putExtra("Logo", byteArray);
-                        outIntent.putExtra("Address", address.getText().toString());
-                        outIntent.putExtra("Temperature", isTemperature.isChecked());
-                        outIntent.putExtra("Detail address", detailAddress.getText().toString());
-                        outIntent.putExtra("QR name", name.getText().toString());
-                        outIntent.putExtra("Phone number", phone.getText().toString());
-                        outIntent.putExtra("Position", pos);
+                Bitmap bitmap = item.getIcon();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                intent.putExtra("ImageURL", item.getIconURI());
+                intent.putExtra("QR name", item.getTitle());
+                intent.putExtra("Address", item.getAddress());
+                intent.putExtra("Detail address", item.getDetailAddress());
+                intent.putExtra("Phone", item.getPhone());
+                intent.putExtra("Temperature", item.getTemp());
+                intent.putExtra("Position", pos);
 
-                        my_qr_item item = new my_qr_item();
-                        item.setTitle(name.getText().toString());
-                        item.setAddress(address.getText().toString());
-                        item.setDetailAddress(detailAddress.getText().toString());
-                        item.setTemp(isTemperature.isChecked());
-                        item.setPhone(phone.getText().toString());
 
-                        setResult(RESULT_OK, outIntent);
+                startActivityForResult(intent, QR_MOD);
 
-                        databaseReference.child("user").child(user.getUid()).child("myQR").push().setValue(item);
-
-                        finish();
-                    }
-                });
-
-                dlg.show();
             }
         });
 
@@ -132,20 +109,9 @@ public class MyQrInfo extends Activity {
         super.onActivityResult(requestCode, resultCode, intent);
 
         switch(requestCode){
-            case ADD_LOGO :
-                if(resultCode == RESULT_OK)
-                {
-                    try{
-                        InputStream in = getContentResolver().openInputStream(intent.getData());
-                        Bitmap img = BitmapFactory.decodeStream(in);
-                        in.close();
-                        logo.setImageBitmap(img);
-                    }catch (Exception e){
+            case QR_CREATE:
+                if(resultCode == RESULT_OK) {
 
-                    }
-                }
-                else if(resultCode == RESULT_CANCELED)
-                {
                 }
                 break;
         }

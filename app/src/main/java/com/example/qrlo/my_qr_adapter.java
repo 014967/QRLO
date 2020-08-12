@@ -85,7 +85,6 @@ public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder
         my_qr_item item = mData.get(position);
 
         Glide.with(holder.itemView.getContext()).load(item.getIconURI()).into(holder.icon);
-        holder.icon.setImageBitmap(item.getIcon());
         holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDetailAddress());
         if(item.getTemp()==false)
