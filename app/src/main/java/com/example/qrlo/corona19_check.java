@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,14 +41,19 @@ public class corona19_check extends AppCompatActivity {
     RadioGroup RG3;
 
     EditText etVisit;
+    EditText etDegree;
+
+
+    String bodyDegree;
+
     String stVisitHistorty;
     String stVisit;
     String stDegree;
     String stCorona;
 
     String QRvalue;
-
-
+    String[] splitQRvalue;
+    String stWhere;
     FirebaseDatabase database;
     DatabaseReference myRef;
     FirebaseUser user;
@@ -64,9 +71,19 @@ public class corona19_check extends AppCompatActivity {
 
         intent = getIntent();
         QRvalue = intent.getExtras().getString("QRvalue");
+        splitQRvalue =QRvalue.split("/");
+        stWhere = splitQRvalue[0] + splitQRvalue[1] + splitQRvalue[2] + splitQRvalue[3];
 
 
+        Calendar c = Calendar.getInstance();
 
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd:mm:ss");
+        final String formattedDate = df.format(c.getTime());
+
+
+        etDegree = findViewById(R.id.etDegree);
+
+        bodyDegree = etDegree.getText().toString();
 
         RB1 = findViewById(R.id.RB1);
         RB2 = findViewById(R.id.RB2);
@@ -159,12 +176,13 @@ public class corona19_check extends AppCompatActivity {
 
 
 
-                myRef.child(user.getUid()).child(QRvalue).addListenerForSingleValueEvent(new ValueEventListener() {
+                myRef.child(user.getUid()).child("history").child(formattedDate).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         Map<String, Object> profile = new HashMap<String, Object>();
 
+                        profile.put("현재 온도", bodyDegree);
                         profile.put("2주간 해외 방문 이력" , stVisit);
 
                         if(stVisitHistorty.isEmpty())
@@ -176,9 +194,10 @@ public class corona19_check extends AppCompatActivity {
                         }
                         profile.put("발열 및 호흡기증상 유무", stDegree);
                         profile.put("2주내에 확진자 발생 지역 방문 유무", stCorona);
+                        profile.put("where",stWhere);
 
 
-                        myRef.child(user.getUid()).child(QRvalue).updateChildren(profile);
+                        myRef.child(user.getUid()).child("history").child(formattedDate).updateChildren(profile);
                     }
 
                     @Override
@@ -193,8 +212,11 @@ public class corona19_check extends AppCompatActivity {
 
 
 
+
+
                 Intent in = new Intent(corona19_check.this, After_Login.class);
                 startActivity(in);
+                finish();
             }
         });
     }

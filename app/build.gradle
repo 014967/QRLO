@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:20.1.0'// don't touch
     implementation 'com.android.support:multidex:1.0.3' // don't touch
 
+    implementation 'nl.joery.animatedbottombar:library:1.0.8'
+
 
 
 

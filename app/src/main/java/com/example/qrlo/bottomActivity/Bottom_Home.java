@@ -91,29 +91,42 @@ public class Bottom_Home extends Fragment {
                 cameraSource.stop();
             }
         });
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
 
-            }
+            new Thread() {
+                public void run(){
+            barcodeDetector.setProcessor(new Detector.Processor<Barcode>()
 
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                {
+                    @Override
+                    public void release () {
 
-                SparseArray<Barcode> qrCodes = detections.getDetectedItems();
+                    barcodeDetector.release();
+                }
 
-                Log.d(TAG, String.valueOf(qrCodes));
-                if(qrCodes.size() != 0) {
-                    Intent in = new Intent(getContext(), corona19_check.class);
-                    String QRvalue = qrCodes.valueAt(0).displayValue;
-                    Log.d(TAG , QRvalue);
-                    in.putExtra("QRvalue", QRvalue);
-                    startActivity(in);
+                    @Override
+                    public void receiveDetections (Detector.Detections < Barcode > detections) {
+
+                    SparseArray<Barcode> qrCodes = detections.getDetectedItems();
+                    if (!(qrCodes == null)) {
+
+
+                        Log.d(TAG, String.valueOf(qrCodes));
+                        if (qrCodes.size() != 0) {
+                            Intent in = new Intent(getContext(), corona19_check.class);
+                            String QRvalue = qrCodes.valueAt(0).displayValue;
+                            Log.d(TAG, QRvalue);
+                            in.putExtra("QRvalue", QRvalue);
+                            startActivity(in);
+
+
+                        }
+                    }
 
 
                 }
-            }
-        });
+                });
+                }
+            }.start();
 
 
 

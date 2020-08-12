@@ -16,7 +16,7 @@
         android:layout_above="@id/goHome">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/etDegree"
             android:layout_width="293dp"
             android:layout_height="99dp"
             android:layout_marginTop="20dp"
