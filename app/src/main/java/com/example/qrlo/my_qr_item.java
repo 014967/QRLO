@@ -11,7 +11,6 @@ public class my_qr_item {
     private boolean tempDrawable;
     private String phoneStr;
     private String strQR;
-    private String logoURL;
 
     public void setIcon(Bitmap icon) {
         iconBitmap = icon;
@@ -39,13 +38,12 @@ public class my_qr_item {
         phoneStr = phone;
     }
 
-    public void setLogoURL(String url){
-        logoURL = url;
+    public void setStrQR(String qr){
+        strQR = qr;
     }
 
-    public void setQR() {
-        strQR = addressStr + '/' + detailAddressStr + '/' + titleStr + '/' + phoneStr + '/' + logoURL;  // QR 코드에 들어갈 포맷 => 나중에 split 함수로 쪼개서 사용하면 됨
-        // TODO 현국이가 logo 이미지 올릴 때 logoURL 초기화해줘야 할 듯
+    public void updateQR() {
+        strQR = addressStr + '/' + detailAddressStr + '/' + titleStr + '/' + phoneStr + '/' + iconURI;  // QR 코드에 들어갈 포맷 => 나중에 split 함수로 쪼개서 사용하면 됨
     }
 
     public Bitmap getIcon() {

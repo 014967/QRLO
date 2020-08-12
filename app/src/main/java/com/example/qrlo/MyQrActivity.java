@@ -69,7 +69,12 @@ public class MyQrActivity extends Activity {
         databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                my_qr_item item = snapshot.getValue(my_qr_item.class);
+                final my_qr_item item = snapshot.getValue(my_qr_item.class);
+
+                if(item != null){
+                    item.updateQR();
+                }
+
                 mList.add(item);
                 adapter.notifyDataSetChanged();
             }

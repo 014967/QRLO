@@ -15,9 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -61,11 +66,11 @@ public class CreateQrActivity extends AppCompatActivity {
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance("gs://qrlo-798fd.appspot.com");
         Date date = new Date();
         final String imagedata = firebaseUser.getUid()+"/"+date.toString()+".jpg";
-        final StorageReference storageReference = firebaseStorage.getReferenceFromUrl("gs://qrlo-798fd.appspot.com").child(imagedata);
+        final StorageReference storageReference = firebaseStorage.getReference().child(imagedata);
+
 
 
 
@@ -93,7 +98,6 @@ public class CreateQrActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
-                my_qr_item item = new my_qr_item();
 
                 if(isImgChanged) {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
@@ -102,18 +106,37 @@ public class CreateQrActivity extends AppCompatActivity {
                     byte[] byteArray = stream.toByteArray();
                     outIntent.putExtra("Logo", byteArray);
 
-                   storageReference.putBytes(byteArray).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                       @Override
-                       public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    UploadTask uploadTask = storageReference.putBytes(byteArray);
 
-                       }
-                   }).addOnFailureListener(new OnFailureListener() {
-                       @Override
-                       public void onFailure(@NonNull Exception e) {
+                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+                            return storageReference.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if(task.isSuccessful()){
+                                Uri downloadUrl = task.getResult();
+                                String photoUrl = String.valueOf(downloadUrl);
 
-                       }
-                   });
-                    item.setIconURI("gs://qrlo-798fd.appspot.com"+imagedata);
+                                my_qr_item item = new my_qr_item();
+
+                                item.setIconURI(photoUrl);
+                                item.setTitle(name.getText().toString());
+                                item.setAddress(address.getText().toString());
+                                item.setDetailAddress(detailAddress.getText().toString());
+                                item.setTemp(isTemperature.isChecked());
+                                item.setPhone(phone.getText().toString());
+                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
+                            }
+
+                        }
+                    });
+
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.base);
@@ -122,23 +145,11 @@ public class CreateQrActivity extends AppCompatActivity {
                     bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] byteArray2 = stream.toByteArray();
                     outIntent.putExtra("Logo", byteArray2);
-                }
-                outIntent.putExtra("ImageURL", imagedata);
-                outIntent.putExtra("Address", address.getText().toString());
-                outIntent.putExtra("Temperature", isTemperature.isChecked());
-                outIntent.putExtra("Detail address", detailAddress.getText().toString());
-                outIntent.putExtra("QR name", name.getText().toString());
-                outIntent.putExtra("Phone number", phone.getText().toString());
+                }//로고가 없는 상태에서도 넘어가게 만들어야됨
 
-                item.setTitle(name.getText().toString());
-                item.setAddress(address.getText().toString());
-                item.setDetailAddress(detailAddress.getText().toString());
-                item.setTemp(isTemperature.isChecked());
-                item.setPhone(phone.getText().toString());
 
                 setResult(RESULT_OK, outIntent);
 
-                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().setValue(item);
                 finish();
 
 
