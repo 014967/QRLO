@@ -1,10 +1,14 @@
 package com.example.qrlo.Signup;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -169,6 +173,7 @@ public class Signup3 extends Fragment {
                 Intent in = new Intent(getActivity(), After_Login.class);
                 startActivity(in);
                 getActivity().finish();
+
 
 
 

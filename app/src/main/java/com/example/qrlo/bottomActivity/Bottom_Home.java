@@ -42,6 +42,7 @@ public class Bottom_Home extends Fragment {
     CameraSource cameraSource;
 
 
+    String TAG = "Qrcode = ";
     public Bottom_Home() {
 
     }
@@ -60,6 +61,8 @@ public class Bottom_Home extends Fragment {
         barcodeDetector = new BarcodeDetector.Builder(getContext()).
                 setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(getContext(), barcodeDetector)
+                .setAutoFocusEnabled(true)
+                .setRequestedFps(29.8f).setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(640, 480).build();
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -99,9 +102,15 @@ public class Bottom_Home extends Fragment {
 
                 SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
+                Log.d(TAG, String.valueOf(qrCodes));
                 if(qrCodes.size() != 0) {
                     Intent in = new Intent(getContext(), corona19_check.class);
+                    String QRvalue = qrCodes.valueAt(0).displayValue;
+                    Log.d(TAG , QRvalue);
+                    in.putExtra("QRvalue", QRvalue);
                     startActivity(in);
+
+
                 }
             }
         });
@@ -112,8 +121,10 @@ public class Bottom_Home extends Fragment {
         return v;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
 
-
-
+    }
 }

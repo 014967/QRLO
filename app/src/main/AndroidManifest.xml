@@ -4,7 +4,7 @@ package="com.example.qrlo">
 
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.hardware.camera.autofocus" />
+<uses-feature android:name="android.hardware.camera.autofocus" />
 
 <meta-data
     android:name="com.google.android.gms.vision.DEPENDENCIES"

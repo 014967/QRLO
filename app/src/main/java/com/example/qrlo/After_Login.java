@@ -3,12 +3,16 @@ package com.example.qrlo;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.view.MenuItem;
@@ -56,21 +60,21 @@ public class After_Login extends AppCompatActivity {
         fragmentManager =getSupportFragmentManager();
 
 
-        
 
 
+        fragmentTransaction =getSupportFragmentManager().beginTransaction();
+
+
+        fragmentTransaction.replace(R.id.navigation_frame, Bottom_Home );
+        fragmentTransaction.commit();
 
 
 
 
 
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-        ;
-        fragmentTransaction =getSupportFragmentManager().beginTransaction();
 
 
-        fragmentTransaction.replace(R.id.navigation_frame, Bottom_Home );
-        fragmentTransaction.commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
