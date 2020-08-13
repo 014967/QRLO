@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -72,13 +73,12 @@ public class corona19_check extends AppCompatActivity {
         intent = getIntent();
         QRvalue = intent.getExtras().getString("QRvalue");
         splitQRvalue =QRvalue.split("/");
-        stWhere = splitQRvalue[0] + splitQRvalue[1];
+        stWhere = splitQRvalue[0] + splitQRvalue[1] + splitQRvalue[2] + splitQRvalue[3];
 
 
-        Calendar c = Calendar.getInstance();
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd:mm:ss");
-        final String formattedDate = df.format(c.getTime());
+
+
 
 
         etDegree = findViewById(R.id.etDegree);
@@ -122,7 +122,7 @@ public class corona19_check extends AppCompatActivity {
 
                 }
                 else
-                {
+                { etVisit.setVisibility(View.INVISIBLE);
                     stVisit ="아니오";
                 }
             }
@@ -176,7 +176,7 @@ public class corona19_check extends AppCompatActivity {
 
 
 
-                myRef.child(user.getUid()).child("history").child(formattedDate).addListenerForSingleValueEvent(new ValueEventListener() {
+                myRef.child(user.getUid()).child("history").push().addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -195,9 +195,11 @@ public class corona19_check extends AppCompatActivity {
                         profile.put("발열 및 호흡기증상 유무", stDegree);
                         profile.put("2주내에 확진자 발생 지역 방문 유무", stCorona);
                         profile.put("where",stWhere);
+                        profile.put("when", ServerValue.TIMESTAMP);
 
 
-                        myRef.child(user.getUid()).child("history").child(formattedDate).updateChildren(profile);
+
+                        myRef.child(user.getUid()).child("history").push().updateChildren(profile);
                     }
 
                     @Override
