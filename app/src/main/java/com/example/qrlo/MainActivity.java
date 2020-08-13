@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient googleApiClient;
     private AccessTokenTracker accessTokenTracker;
     EditText Email;
+
+
     EditText PassWord;
     private Button SignUp;
 
@@ -199,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
 
-
         createRequest();
 
 
@@ -228,11 +229,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
+   /*     AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken ==null)
+        {
+            Intent in  = new Intent(MainActivity.this , After_Login.class);
+            startActivity(in);
+    */    }
 
 
 
 
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
