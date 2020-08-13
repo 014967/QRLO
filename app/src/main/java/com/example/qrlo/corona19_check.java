@@ -106,6 +106,7 @@ public class corona19_check extends AppCompatActivity {
                 if(checkedId == R.id.RB1)
                 {
 
+
                     etVisit.setVisibility(View.VISIBLE);
                     if(etVisit.equals(""))
                     {
