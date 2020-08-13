@@ -7,6 +7,7 @@ public class my_qr_item {
 
     private Bitmap iconBitmap;
     private String iconURI;
+    private String iconNameStr;
     private String titleStr;
     private String addressStr;
     private String detailAddressStr;
@@ -20,6 +21,8 @@ public class my_qr_item {
     }
 
     public void setIconURI(String iconUri){iconURI = iconUri;}
+
+    public void setIconName(String iconName){iconNameStr = iconName; };
 
     public void setTitle(String title) {
         titleStr = title;
@@ -59,6 +62,10 @@ public class my_qr_item {
 
     public String getIconURI() {
         return this.iconURI;
+    }
+
+    public String getIconName() {
+        return this.iconNameStr;
     }
 
     public String getTitle() {

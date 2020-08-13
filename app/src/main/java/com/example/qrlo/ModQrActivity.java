@@ -142,6 +142,7 @@ public class ModQrActivity extends AppCompatActivity {
                                 my_qr_item item1 = new my_qr_item();
 
                                 item1.setIconURI(photoUrl);
+                                item1.setIconName(imagedata);
                                 item1.setTitle(name.getText().toString());
                                 item1.setAddress(address.getText().toString());
                                 item1.setDetailAddress(detailAddress.getText().toString());
@@ -159,7 +160,7 @@ public class ModQrActivity extends AppCompatActivity {
                 else {
                     my_qr_item item2 = new my_qr_item();
 
-                    String photoUrl = "https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/9asoQOpBHON2LsLr9bKHDkQpOEI3%2FThu%20Aug%2013%2019%3A20%3A56%20GMT%2B09%3A00%202020.jpg?alt=media&token=05375d6e-2942-4426-8643-fedfc9467edb";
+                    String photoUrl = "https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/qrlo_icon.jpg?alt=media&token=67161f75-9373-48bb-90fd-07988ff217fa";
                     item2.setIconURI(photoUrl);
                     item2.setTitle(name.getText().toString());
                     item2.setAddress(address.getText().toString());
