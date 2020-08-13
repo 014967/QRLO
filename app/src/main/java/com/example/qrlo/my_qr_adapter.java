@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class my_qr_adapter extends RecyclerView.Adapter<my_qr_adapter.ViewHolder> {
     private ArrayList<my_qr_item> mData = null;
 
-    my_qr_adapter(ArrayList<my_qr_item> list)
+    public my_qr_adapter(ArrayList<my_qr_item> list)
     {
         mData = list;
     }

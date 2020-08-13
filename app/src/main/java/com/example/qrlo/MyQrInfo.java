@@ -134,8 +134,20 @@ public class MyQrInfo extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         StorageReference storageReference = firebaseStorage.getReference();
-                        if(item.getIconName()!="") {
+                        if(item.getIconName()==null) {
+                            databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(), "기본 이미지", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
 
+                                }
+                            });
+                        }
+                        else{
                             storageReference.child(item.getIconName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -150,19 +162,6 @@ public class MyQrInfo extends Activity {
 
                                         }
                                     });
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-
-                                }
-                            });
-                        }
-                        else{
-                            databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(), "기본 이미지", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -191,7 +190,7 @@ public class MyQrInfo extends Activity {
             case QR_MOD:
                 if(resultCode == RESULT_OK) {
                     StorageReference storageReference = firebaseStorage.getReference();
-                    if(item.getIconName()!="") {
+                    if(item.getIconURI()!="https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/qrlo_icon.jpg?alt=media&token=67161f75-9373-48bb-90fd-07988ff217fa") {
                         storageReference.child(item.getIconName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

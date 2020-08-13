@@ -1,4 +1,4 @@
-package com.example.qrlo;
+/*package com.example.qrlo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -127,3 +127,4 @@ public class MyQrActivity extends Activity {
     }
 
 }
+*/
