@@ -73,7 +73,7 @@ public class corona19_check extends AppCompatActivity {
 
         intent = getIntent();
         QRvalue = intent.getExtras().getString("QRvalue");
-        splitQRvalue =QRvalue.split(my_qr_item.QR_ADD_SPLIT_TOKEN);
+        splitQRvalue =QRvalue.split(",");
         stWhere = splitQRvalue[0] + splitQRvalue[1] + splitQRvalue[2] + splitQRvalue[3];
 
 

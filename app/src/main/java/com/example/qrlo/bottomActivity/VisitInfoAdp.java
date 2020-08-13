@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qrlo.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class VisitInfoAdp extends RecyclerView.Adapter<VisitInfoAdp.ViewHolder> {
 
@@ -38,14 +40,15 @@ public class VisitInfoAdp extends RecyclerView.Adapter<VisitInfoAdp.ViewHolder> 
     public void onBindViewHolder(@NonNull VisitInfoAdp.ViewHolder holder, int position) {
 
 
-
-        holder.tvwhen.setText(arrayList.get(position).getWhen());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy mm:ss");
+        holder.tvwhen.setText(sdf.format(new Date(arrayList.get(position).getWhen())));
         holder.tvwhere.setText(arrayList.get(position).getWhere());
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        if(arrayList != null) return arrayList.size();
+        else return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

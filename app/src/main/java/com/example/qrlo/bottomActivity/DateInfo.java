@@ -5,22 +5,33 @@ import java.util.ArrayList;
 public class DateInfo {
 
     long when;
-    ArrayList<VisitInfo> arrayList;
+    String where;
+    String wherelogo;
 
+    public String getWhere() {
+        return where;
+    }
 
-    public DateInfo(long when, ArrayList<VisitInfo> arrayList)
+    public void setWhere(String where) {
+        this.where = where;
+    }
+
+    public String getWherelogo() {
+        return wherelogo;
+    }
+
+    public void setWherelogo(String wherelogo) {
+        this.wherelogo = wherelogo;
+    }
+
+    public DateInfo(){}
+    public DateInfo(long when)
     {
         this.when = when;
-        this.arrayList = arrayList;
+
     }
 
-    public ArrayList<VisitInfo> getArrayList() {
-        return arrayList;
-    }
 
-    public void setArrayList(ArrayList<VisitInfo> arrayList) {
-        this.arrayList = arrayList;
-    }
 
     public long getWhen() {
         return when;

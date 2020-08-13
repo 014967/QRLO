@@ -3,7 +3,7 @@ package com.example.qrlo.bottomActivity;
 public class VisitInfo {
 
     private String wherelogo;
-    private String when;
+    private long when;
     private String where;
 
     public VisitInfo()
@@ -27,11 +27,11 @@ public class VisitInfo {
         this.wherelogo = wherelogo;
     }
 
-    public String getWhen() {
+    public long getWhen() {
         return when;
     }
 
-    public void setWhen(String when) {
+    public void setWhen(long when) {
         this.when = when;
     }
 }

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 public class my_qr_item {
     public static final String QR_CERTI = "qrlo-798fd";
-    public static final String QR_CERTI_SPLIT_TOKEN = "::";
+    public static final String QR_CERTI_SPLIT_TOKEN = ";";
     public static final String QR_ADD_SPLIT_TOKEN = ",";
 
     private Bitmap iconBitmap;

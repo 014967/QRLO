@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class DateInfoAdp extends RecyclerView.Adapter<DateInfoAdp.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(context).inflate(R.layout.list_date,parent, false);
+        View v= LayoutInflater.from(context).inflate(R.layout.list_visit,parent, false);
         ViewHolder holder =new ViewHolder(v);
 
         return holder;
@@ -68,13 +69,10 @@ public class DateInfoAdp extends RecyclerView.Adapter<DateInfoAdp.ViewHolder> {
         //String localTime = sdf.format(new Date(arrayList.get(position).getWhen()));
 
 
-        holder.Date.setText(sdf.format(new Date(arrayList.get(position).getWhen())));
-        ArrayList<VisitInfo> visitInfoArrayList = arrayList.get(position).getArrayList();
-        VisitInfoAdp visitInfoAdp = new VisitInfoAdp(context, visitInfoArrayList);
-        holder.visitHistory.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false));
-        holder.visitHistory.setAdapter(visitInfoAdp);
-
-        holder.visitHistory.setNestedScrollingEnabled(false);
+        holder.visitTime.setText(sdf.format(new Date(arrayList.get(position).getWhen())));
+        holder.visitWhere.setText(arrayList.get(position).getWhere());
+        Log.d(TAG, "URL = " + arrayList.get(position).getWherelogo());
+        Glide.with(holder.IVlogo.getContext()).load(arrayList.get(position).getWherelogo()).into(holder.IVlogo);
 
 
 
@@ -92,9 +90,10 @@ public class DateInfoAdp extends RecyclerView.Adapter<DateInfoAdp.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView Date;
-    RecyclerView visitHistory;
-    RelativeLayout relativeLayout;
+    TextView visitTime;
+    TextView visitWhere;
+    ImageView IVlogo;
+
 
 
 
@@ -102,9 +101,11 @@ public class DateInfoAdp extends RecyclerView.Adapter<DateInfoAdp.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            Date = itemView.findViewById(R.id.Date);
-            visitHistory = itemView.findViewById(R.id.visitHistory);
-            relativeLayout = itemView.findViewById(R.id.relativeLayout);
+            visitTime = itemView.findViewById(R.id.visitTime);
+            visitWhere =itemView.findViewById(R.id.visitWhere);
+            IVlogo = itemView.findViewById(R.id.IVlogo);
+
+
         }
     }
 
