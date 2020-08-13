@@ -225,14 +225,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
 
-
+/*
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken ==null)
         {
          Intent in  = new Intent(MainActivity.this , After_Login.class);
          startActivity(in);
         }
-
+*/
 
     }
 

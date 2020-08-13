@@ -152,7 +152,7 @@ public class CreateQrActivity extends AppCompatActivity {
                 else {
                     my_qr_item item = new my_qr_item();
 
-                    String photoUrl = "https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/fxW4atnXfngfAc2lqiXvHaWQVTW2%2FThu%20Aug%2013%2004%3A59%3A00%20GMT%2B09%3A00%202020.jpg?alt=media&token=d1a0b1e4-0995-4f66-a3da-4d81819e89c4";
+                    String photoUrl = "https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/9asoQOpBHON2LsLr9bKHDkQpOEI3%2FThu%20Aug%2013%2019%3A20%3A56%20GMT%2B09%3A00%202020.jpg?alt=media&token=05375d6e-2942-4426-8643-fedfc9467edb";
                     item.setIconURI(photoUrl);
                     item.setTitle(name.getText().toString());
                     item.setAddress(address.getText().toString());

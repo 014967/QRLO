@@ -81,6 +81,14 @@ public class MyQrInfo extends Activity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "공유");
+
+                Intent sharingIntent =  Intent.createChooser(shareIntent, "공유하기");
+                startActivity(sharingIntent);
+
 
             }
         });
