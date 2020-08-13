@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -75,9 +73,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     private SignInButton btn_join_google;
-    //private LoginButton btn_join_facebook;
-
-
     private Button btn_join_facebook;
 
 
@@ -128,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         btn_join_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(MainActivity.this
-                , Arrays.asList("email", "public_profile"));
+                        , Arrays.asList("email", "public_profile"));
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
@@ -154,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
 
+
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
         mCallbackManager = CallbackManager.Factory.create();
-
 
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -318,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-             //   pb_login.setVisibility(View.VISIBLE);
+                //   pb_login.setVisibility(View.VISIBLE);
 
 
                 if(task.isSuccessful())
@@ -430,8 +425,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void updateUI(FirebaseUser currentUser) {
     }
-
-
 
 
 

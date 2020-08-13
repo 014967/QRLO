@@ -20,6 +20,9 @@
         android:layout_alignParentBottom="true"
         app:abb_tabs="@menu/menu_navigation"
         app:abb_selectedIndex="1"
+        app:abb_tabColor="@color/light_gray"
+        app:abb_indicatorColor="@color/blue_purple"
+        app:abb_tabColorSelected="@color/blue_purple"
         />
 
 

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.qrlo.CreateQrActivity;
 import com.example.qrlo.MyQrInfo;
 import com.example.qrlo.R;
+import com.example.qrlo.RecyclerDecoration;
 import com.example.qrlo.my_qr_adapter;
 import com.example.qrlo.my_qr_item;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,6 +62,8 @@ public class Bottom_Administor extends Fragment {
         recyclerView = v.findViewById(R.id.my_qr_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new my_qr_adapter(mList);
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(30);
+        recyclerView.addItemDecoration(spaceDecoration);
         recyclerView.setAdapter(adapter);
 
         mList.clear();

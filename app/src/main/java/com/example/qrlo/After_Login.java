@@ -95,13 +95,8 @@ public class After_Login extends AppCompatActivity {
                         fragmentTransaction.commit();
 
                         break;
-                    case R.id.navigation_setting :
-                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.navigation_frame, Bottom_Setting );
-                        fragmentTransaction.commit();
 
 
-                        break;
                     case R.id.navigation_administor :
                         fragmentTransaction =getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.navigation_frame, Bottom_Administor );

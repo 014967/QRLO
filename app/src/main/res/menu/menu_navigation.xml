@@ -3,20 +3,16 @@
 
 <item
     android:id="@+id/navigation_history"
-    android:title="Dashboard"
-    android:icon="@drawable/ic_baseline_dashboard_24"/>
+    android:title="방문기록"
+    android:icon="@drawable/ic_register"/>
 
 <item
     android:id="@+id/navigation_home"
-    android:title="home"
-    android:icon="@drawable/ic_baseline_home_24"/>
-<item
-    android:id="@+id/navigation_setting"
-    android:title="setting"
-    android:icon="@drawable/ic_baseline_settings_24"/>
+    android:title="QR인식"
+    android:icon="@drawable/ic_qr_code_gray"/>
 
 <item
     android:id="@+id/navigation_administor"
-    android:title="administor"
-    android:icon="@drawable/ic_baseline_assignment_ind_24"/>
+    android:title="QR만들기"
+    android:icon="@drawable/ic_settings"/>
 </menu>

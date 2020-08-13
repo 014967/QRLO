@@ -74,7 +74,7 @@ public class corona19_check extends AppCompatActivity {
         intent = getIntent();
         QRvalue = intent.getExtras().getString("QRvalue");
         splitQRvalue =QRvalue.split(",");
-        stWhere = splitQRvalue[0] + splitQRvalue[1] + splitQRvalue[2] + splitQRvalue[3];
+        stWhere = splitQRvalue[0] + splitQRvalue[1];// + splitQRvalue[2] + splitQRvalue[3];
 
 
         etDegree = findViewById(R.id.etDegree);

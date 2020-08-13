@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Signup.Signup1">
+    tools:context=".Signup.Signup1"
+    android:background="@color/white">
 
 
     <LinearLayout
@@ -14,23 +15,71 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etNum"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="2"
-                android:hint="+82"
-                android:inputType="number" />
+                android:text="@string/join"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:layout_marginTop="90dp"
+                android:layout_marginLeft="30dp"/>
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/step1"
+                android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/national_num"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="25sp"/>
+                <EditText
+                    android:id="@+id/etNum"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:ems="2"
+                    android:hint="82"
+                    android:textSize="25sp"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_num"
+                android:layout_marginTop="30dp"/>
 
             <EditText
                 android:id="@+id/etPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="11"
-                android:hint="PhoneNumber"
+                android:hint="-없이 입력"
+                android:textSize="25sp"
                 android:inputType="phone" />
         </LinearLayout>
 
@@ -39,8 +88,11 @@
     <Button
         android:id="@+id/GenerateOTP"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:text="Generate" />
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:background="@drawable/round_rec_fill"
+        android:text="@string/get_number" />
 
 </RelativeLayout>
