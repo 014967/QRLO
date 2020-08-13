@@ -38,7 +38,6 @@ public class Bottom_Administor extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext(), MyQrActivity.class);
                 startActivity(in);
-
             }
         });
         return v;

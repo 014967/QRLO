@@ -28,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +49,8 @@ public class After_Login extends AppCompatActivity {
     FrameLayout frameLayout;
     FragmentTransaction fragmentTransaction;
 
+    private static final int QR_CREATE = 10002;
+    private static final int QR_INFO = 10003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +128,21 @@ public class After_Login extends AppCompatActivity {
     {
 
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case QR_CREATE:
+                if(resultCode == RESULT_OK) {
+                    Toast.makeText(getApplicationContext(), "생성되었습니다", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case QR_INFO:
+                if(resultCode == RESULT_OK) {
 
+                }
+                break;
+        }
+    }
 
 }

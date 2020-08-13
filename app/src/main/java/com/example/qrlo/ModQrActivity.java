@@ -116,7 +116,7 @@ public class ModQrActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent outIntent = new Intent(getApplicationContext(), MyQrInfo.class);
 
-                if(isImgChanged) {
+                if(item.getIconURI()!="https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/qrlo_icon.jpg?alt=media&token=67161f75-9373-48bb-90fd-07988ff217fa") {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);

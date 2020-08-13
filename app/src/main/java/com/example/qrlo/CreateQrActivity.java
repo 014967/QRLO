@@ -107,7 +107,7 @@ public class CreateQrActivity extends AppCompatActivity {
                     return;
                 }
 
-                Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
+                Intent outIntent = new Intent(getApplicationContext(), After_Login.class);
 
                 if(isImgChanged) {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();

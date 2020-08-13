@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 
 import com.example.qrlo.R;
 import com.example.qrlo.corona19_check;
+import com.example.qrlo.my_qr_item;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -124,14 +125,16 @@ public class Bottom_Home extends Fragment {
 
                             release();
                             QRvalue = qrCodes.valueAt(0).displayValue;
-
-
-                            Intent in = new Intent(getContext(), corona19_check.class);
-
                             Log.d(TAG, QRvalue);
-                            in.putExtra("QRvalue", QRvalue);
-                            startActivity(in);
 
+                            String[] splits = QRvalue.split(my_qr_item.QR_CERTI_SPLIT_TOKEN);
+
+                            if(splits[0].equals(my_qr_item.QR_CERTI)){
+                                Intent in = new Intent(getContext(), corona19_check.class);
+
+                                in.putExtra("QRvalue", splits[1]);
+                                startActivity(in);
+                            }
 
                         }
 
