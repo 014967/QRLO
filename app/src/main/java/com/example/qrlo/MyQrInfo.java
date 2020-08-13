@@ -1,6 +1,8 @@
 package com.example.qrlo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,13 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
@@ -37,6 +44,9 @@ public class MyQrInfo extends Activity {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance("gs://qrlo-798fd.appspot.com");
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +69,7 @@ public class MyQrInfo extends Activity {
         item.setTemp(inIntent.getBooleanExtra("Temperature", false));
         item.setPhone(inIntent.getStringExtra("Phone number"));
         item.setKey(inIntent.getStringExtra("Key"));
+        item.setIconName(inIntent.getStringExtra("IconName"));
         pos = inIntent.getIntExtra("Position", 0);
         item.updateQR();
 
@@ -115,7 +126,58 @@ public class MyQrInfo extends Activity {
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder dlg = new AlertDialog.Builder(MyQrInfo.this);
+                dlg.setMessage("정말 삭제하시겠습니까?");
+                dlg.setIcon(R.drawable.qrlo_icon);
+                dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                        StorageReference storageReference = firebaseStorage.getReference();
+                        if(item.getIconName()!="") {
+
+                            storageReference.child(item.getIconName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(getApplicationContext(), "이미지 삭제", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                        }
+                        else{
+                            databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(), "기본 이미지", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                        }
+
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
+                dlg.setNegativeButton("아니오", null);
+                dlg.show();
             }
         });
 
@@ -128,8 +190,44 @@ public class MyQrInfo extends Activity {
         switch(requestCode){
             case QR_MOD:
                 if(resultCode == RESULT_OK) {
-                    Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
-                    databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue();
+                    StorageReference storageReference = firebaseStorage.getReference();
+                    if(item.getIconName()!="") {
+                        storageReference.child(item.getIconName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                    }
+                    else{
+                        databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                    }
+
                     setResult(RESULT_OK, intent);
                     finish();
                 }

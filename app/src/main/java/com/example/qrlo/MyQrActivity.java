@@ -102,6 +102,7 @@ public class MyQrActivity extends Activity {
                 intent.putExtra("Phone number", item.getPhone());
                 intent.putExtra("Position", pos);
                 intent.putExtra("Key", item.getKey());
+                intent.putExtra("IconName", item.getIconName());
 
                 startActivityForResult(intent, QR_INFO);
             }
