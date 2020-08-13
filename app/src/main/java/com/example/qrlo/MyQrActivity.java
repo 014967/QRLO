@@ -3,6 +3,7 @@ package com.example.qrlo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ public class MyQrActivity extends Activity {
     RecyclerView recyclerView;
     my_qr_adapter adapter;
     ArrayList<my_qr_item> mList = new ArrayList<my_qr_item>();
+
+    String tag = "tag = ";
     private static final int QR_CREATE = 10002;
     private static final int QR_INFO = 10003;
 
@@ -52,6 +55,8 @@ public class MyQrActivity extends Activity {
                 my_qr_item item = snapshot.getValue(my_qr_item.class);
 
                 mList.add(item);
+
+                Log.d(tag , "mlist = " + mList);
                 adapter.notifyDataSetChanged();
             }
 

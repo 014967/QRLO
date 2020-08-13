@@ -7,6 +7,7 @@
     >
 
     <ImageView
+        android:id="@+id/IVlogo"
         android:layout_width="75dp"
         android:layout_height="75dp" />
 
@@ -16,12 +17,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/VisitName"
+            android:id="@+id/visitWhere"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
         <TextView
-            android:id="@+id/VisitTime"
+            android:id="@+id/visitTime"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:layout_height="25dp" />
