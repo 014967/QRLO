@@ -1,33 +1,25 @@
 package com.example.qrlo.bottomActivity;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class DateInfo {
 
     long when;
-    String where;
+    ArrayList<VisitInfo> arrayList;
 
-    public String getWhere() {
-        return where;
-    }
 
-    public void setWhere(String where) {
-        this.where = where;
-    }
-
-    public String getWherelogo() {
-        return wherelogo;
-    }
-
-    public void setWherelogo(String wherelogo) {
-        this.wherelogo = wherelogo;
-    }
-
-    String wherelogo;
-
-    public DateInfo()
+    public DateInfo(long when, ArrayList<VisitInfo> arrayList)
     {
+        this.when = when;
+        this.arrayList = arrayList;
+    }
 
+    public ArrayList<VisitInfo> getArrayList() {
+        return arrayList;
+    }
+
+    public void setArrayList(ArrayList<VisitInfo> arrayList) {
+        this.arrayList = arrayList;
     }
 
     public long getWhen() {

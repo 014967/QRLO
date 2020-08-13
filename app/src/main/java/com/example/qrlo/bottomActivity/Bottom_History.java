@@ -30,7 +30,7 @@ public class Bottom_History extends Fragment {
 
 
     RecyclerView rvGroup;
-    DateInfoAdp DateInfoAdapter;
+    RecyclerView.Adapter Adapter;
     RecyclerView.LayoutManager manager;
     DateInfo dateInfo;
     String TAG = "RECYCLER : ";
@@ -67,7 +67,7 @@ public class Bottom_History extends Fragment {
         databaseReference = database.getReference("user");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
+        Adapter = new DateInfoAdp(ArrayDate,getActivity());
 
 
 
@@ -89,7 +89,8 @@ public class Bottom_History extends Fragment {
 
                 }
 
-                DateInfoAdapter.notifyDataSetChanged();
+                rvGroup.setAdapter(Adapter);
+                Adapter.notifyDataSetChanged();
 
             }
 
@@ -99,8 +100,7 @@ public class Bottom_History extends Fragment {
             }
         });
 
-        DateInfoAdapter = new DateInfoAdp(ArrayDate,getActivity());
-        rvGroup.setAdapter(DateInfoAdapter);
+
 
 
         return v;

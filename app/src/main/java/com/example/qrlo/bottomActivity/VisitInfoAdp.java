@@ -1,6 +1,9 @@
 package com.example.qrlo.bottomActivity;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,19 +12,52 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qrlo.R;
 
-public class VisitInfoAdp extends RecyclerView.ViewHolder {
+import java.util.ArrayList;
 
-    public TextView when;
-    public TextView where;
-    public ImageView Ivwherelogo;
+public class VisitInfoAdp extends RecyclerView.Adapter<VisitInfoAdp.ViewHolder> {
+
+    public Context context;
+    private ArrayList<VisitInfo> arrayList;
+
+    public VisitInfoAdp(Context context, ArrayList<VisitInfo> arrayList)
+    {
+        this.context = context;
+        this.arrayList = arrayList;
+    }
+
+    @NonNull
+    @Override
+    public VisitInfoAdp.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v= LayoutInflater.from(context).inflate(R.layout.list_visit,parent, false);
+        VisitInfoAdp.ViewHolder holder =new VisitInfoAdp.ViewHolder(v);
+
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VisitInfoAdp.ViewHolder holder, int position) {
 
 
-    public VisitInfoAdp(@NonNull View itemView) {
-        super(itemView);
 
+        holder.tvwhen.setText(arrayList.get(position).getWhen());
+        holder.tvwhere.setText(arrayList.get(position).getWhere());
+    }
 
-        when = itemView.findViewById(R.id.visitTime);
-        where = itemView.findViewById(R.id.visitWhere);
-        Ivwherelogo = itemView.findViewById(R.id.IVlogo);
+    @Override
+    public int getItemCount() {
+        return arrayList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView imageView;
+        TextView tvwhen;
+        TextView tvwhere;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.IVlogo);
+            tvwhen = itemView.findViewById(R.id.visitTime);
+            tvwhere = itemView.findViewById(R.id.visitWhere);
+        }
     }
 }
