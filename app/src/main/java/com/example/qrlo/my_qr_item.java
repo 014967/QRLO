@@ -3,6 +3,8 @@ package com.example.qrlo;
 import android.graphics.Bitmap;
 
 public class my_qr_item {
+    private static final String QR_CERTI = "qrlo-798fd";
+
     private Bitmap iconBitmap;
     private String iconURI;
     private String titleStr;
@@ -11,6 +13,7 @@ public class my_qr_item {
     private boolean tempDrawable;
     private String phoneStr;
     private String strQR;
+    private String keyStr;
 
     public void setIcon(Bitmap icon) {
         iconBitmap = icon;
@@ -42,8 +45,12 @@ public class my_qr_item {
         strQR = qr;
     }
 
+    public void setKey(String key) {
+        keyStr = key;
+    }
+
     public void updateQR() {
-        strQR = addressStr + '/' + detailAddressStr + '/' + titleStr + '/' + phoneStr + '/' + iconURI;  // QR 코드에 들어갈 포맷 => 나중에 split 함수로 쪼개서 사용하면 됨
+        strQR = QR_CERTI + ':' + addressStr + '/' + detailAddressStr + '/' + titleStr + '/' + phoneStr + '/' + iconURI;  // QR 코드에 들어갈 포맷 => 나중에 split 함수로 쪼개서 사용하면 됨
     }
 
     public Bitmap getIcon() {
@@ -76,5 +83,9 @@ public class my_qr_item {
 
     public String getStrQR(){
         return this.strQR;
+    }
+
+    public String getKey() {
+        return this.keyStr;
     }
 }

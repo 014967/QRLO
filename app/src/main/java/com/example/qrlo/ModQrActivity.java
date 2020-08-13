@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,8 +37,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateQrActivity extends AppCompatActivity {
-
+public class ModQrActivity extends AppCompatActivity {
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private static final int ADD_LOGO = 10001;
     boolean isImgChanged = false;
@@ -46,6 +46,8 @@ public class CreateQrActivity extends AppCompatActivity {
     EditText address, detailAddress, phone, name;
     Switch isTemperature;
     ImageView addLogo;
+    my_qr_item item = new my_qr_item();
+    int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class CreateQrActivity extends AppCompatActivity {
         btnOK = findViewById(R.id.create_qr_ok);
         btnAddress = findViewById(R.id.create_qr_address_btn);
 
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,15 +74,29 @@ public class CreateQrActivity extends AppCompatActivity {
         final String imagedata = firebaseUser.getUid()+"/"+date.toString()+".jpg";
         final StorageReference storageReference = firebaseStorage.getReference().child(imagedata);
 
+        Intent inIntent = getIntent();
 
+        item.setTitle(inIntent.getStringExtra("QR name"));
+        item.setIconURI(inIntent.getStringExtra("ImageURL"));
+        item.setAddress(inIntent.getStringExtra("Address"));
+        item.setDetailAddress(inIntent.getStringExtra("Detail address"));
+        item.setTemp(inIntent.getBooleanExtra("Temperature", false));
+        item.setPhone(inIntent.getStringExtra("Phone number"));
+        pos = inIntent.getIntExtra("Position", 0);
 
+        Glide.with(getApplicationContext()).load(item.getIconURI()).into(addLogo);
+        name.setText(item.getTitle());
+        address.setText(item.getAddress());
+        detailAddress.setText(item.getDetailAddress());
+        isTemperature.setChecked(item.getTemp());
+        phone.setText(item.getPhone());
 
 
         if (btnAddress != null)
             btnAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(CreateQrActivity.this, AddressWebViewActivity.class);
+                    Intent i = new Intent(ModQrActivity.this, AddressWebViewActivity.class);
                     startActivityForResult(i, SEARCH_ADDRESS_ACTIVITY);
                 }
             });
@@ -97,17 +114,7 @@ public class CreateQrActivity extends AppCompatActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // 빈 칸이 있으면 종료되지 않음
-                if(name.getText().toString().equals("") ||
-                    address.getText().toString().equals("") ||
-                    detailAddress.getText().toString().equals("") ||
-                    phone.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"정보를 입력하세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Intent outIntent = new Intent(getApplicationContext(), MyQrActivity.class);
+                Intent outIntent = new Intent(getApplicationContext(), MyQrInfo.class);
 
                 if(isImgChanged) {
                     Bitmap bitmap = ((BitmapDrawable)addLogo.getDrawable()).getBitmap();
@@ -132,17 +139,17 @@ public class CreateQrActivity extends AppCompatActivity {
                                 Uri downloadUrl = task.getResult();
                                 String photoUrl = String.valueOf(downloadUrl);
 
-                                my_qr_item item = new my_qr_item();
+                                my_qr_item item1 = new my_qr_item();
 
-                                item.setIconURI(photoUrl);
-                                item.setTitle(name.getText().toString());
-                                item.setAddress(address.getText().toString());
-                                item.setDetailAddress(detailAddress.getText().toString());
-                                item.setTemp(isTemperature.isChecked());
-                                item.setPhone(phone.getText().toString());
+                                item1.setIconURI(photoUrl);
+                                item1.setTitle(name.getText().toString());
+                                item1.setAddress(address.getText().toString());
+                                item1.setDetailAddress(detailAddress.getText().toString());
+                                item1.setTemp(isTemperature.isChecked());
+                                item1.setPhone(phone.getText().toString());
                                 String key = databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().getKey();
-                                item.setKey(key);
-                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item);
+                                item1.setKey(key);
+                                databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item1);
                             }
 
                         }
@@ -150,21 +157,21 @@ public class CreateQrActivity extends AppCompatActivity {
 
                 }
                 else {
-                    my_qr_item item = new my_qr_item();
+                    my_qr_item item2 = new my_qr_item();
 
                     String photoUrl = "https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/fxW4atnXfngfAc2lqiXvHaWQVTW2%2FThu%20Aug%2013%2004%3A59%3A00%20GMT%2B09%3A00%202020.jpg?alt=media&token=d1a0b1e4-0995-4f66-a3da-4d81819e89c4";
-                    item.setIconURI(photoUrl);
-                    item.setTitle(name.getText().toString());
-                    item.setAddress(address.getText().toString());
-                    item.setDetailAddress(detailAddress.getText().toString());
-                    item.setTemp(isTemperature.isChecked());
-                    item.setPhone(phone.getText().toString());
+                    item2.setIconURI(photoUrl);
+                    item2.setTitle(name.getText().toString());
+                    item2.setAddress(address.getText().toString());
+                    item2.setDetailAddress(detailAddress.getText().toString());
+                    item2.setTemp(isTemperature.isChecked());
+                    item2.setPhone(phone.getText().toString());
                     String key = databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").push().getKey();
-                    item.setKey(key);
+                    item2.setKey(key);
                     databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(key).setValue(item);
                 }//로고가 없는 상태에서도 넘어가게 만들어야됨
 
-
+                outIntent.putExtra("Position", pos);
                 setResult(RESULT_OK, outIntent);
 
                 finish();
@@ -173,7 +180,7 @@ public class CreateQrActivity extends AppCompatActivity {
             }
         });
 
-     }
+    }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
