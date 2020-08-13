@@ -51,13 +51,13 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/assginment2"
                 android:textColor="@color/colorPrimaryDark" />
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/facebook_button"
+            <Button
+                android:id="@+id/btn_join_facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/btn_google"
+                android:id="@+id/btn_join_google"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

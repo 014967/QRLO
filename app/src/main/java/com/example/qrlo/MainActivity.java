@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -52,6 +55,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,12 +71,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private AccessTokenTracker accessTokenTracker;
     EditText Email;
     EditText PassWord;
-    Button Login_Button;
     private Button SignUp;
 
 
-    private SignInButton btn_google;
-    private LoginButton FacebookButton;
+    private SignInButton btn_join_google;
+    //private LoginButton btn_join_facebook;
+
+
+    private Button btn_join_facebook;
 
 
 
@@ -81,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseUser User;
 
 
-    private ProgressBar pb_login;
     private String stuid;
     String stEmail;
     String stPassWord;
@@ -105,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         stPassWord = getIntent().getStringExtra("stPassWord");
 
         SignUp = (Button)findViewById(R.id.btn_join_mobile);
-        FacebookButton = findViewById(R.id.facebook_button);
+        btn_join_facebook = findViewById(R.id.btn_join_facebook);
 
 
         if(stEmail !=null && stPassWord != null)
@@ -120,9 +125,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mFirebaseAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
         firebaseDatabase = FirebaseDatabase.getInstance();
-        FacebookButton.setReadPermissions("email", "public_profile");
 
+        btn_join_facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(MainActivity.this
+                , Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d(TAG, " ON SUCCESS " + loginResult);
+                        handleFacebookToken(loginResult.getAccessToken());
+                    }
 
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG, " ON Cancel ");
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, " ON Error " + error);
+                    }
+                });
+            }
+        });
 
 
 
@@ -136,23 +163,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
         mCallbackManager = CallbackManager.Factory.create();
-        FacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, " ON SUCCESS " + loginResult);
-                handleFacebookToken(loginResult.getAccessToken());
-            }
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, " ON Cancel ");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, " ON Error " + error);
-            }
-        });
 
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -213,8 +224,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
 
-        btn_google = findViewById(R.id.btn_google);
-        btn_google.setOnClickListener(new View.OnClickListener() {
+        btn_join_google = findViewById(R.id.btn_join_google);
+        btn_join_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
@@ -419,6 +430,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void updateUI(FirebaseUser currentUser) {
     }
+
+
 
 
 
