@@ -100,9 +100,9 @@ public class CreateQrActivity extends AppCompatActivity {
 
                 // 빈 칸이 있으면 종료되지 않음
                 if(name.getText().toString().equals("") ||
-                    address.getText().toString().equals("") ||
-                    detailAddress.getText().toString().equals("") ||
-                    phone.getText().toString().equals("")){
+                        address.getText().toString().equals("") ||
+                        detailAddress.getText().toString().equals("") ||
+                        phone.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),"정보를 입력하세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -174,7 +174,7 @@ public class CreateQrActivity extends AppCompatActivity {
             }
         });
 
-     }
+    }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
