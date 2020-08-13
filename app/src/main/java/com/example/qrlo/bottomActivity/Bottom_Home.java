@@ -45,6 +45,7 @@ public class Bottom_Home extends Fragment {
 
     Camera camera;
     SurfaceView surfaceView;
+    String QRvalue;
 
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
@@ -67,6 +68,8 @@ public class Bottom_Home extends Fragment {
 
         barcodeDetector = new BarcodeDetector.Builder(getContext()).
                 setBarcodeFormats(Barcode.QR_CODE).build();
+        barcodeDetector.release();
+
         cameraSource = new CameraSource.Builder(getContext(), barcodeDetector)
                 .setAutoFocusEnabled(true)
                 .setRequestedFps(29.8f).setFacing(CameraSource.CAMERA_FACING_BACK)
@@ -107,7 +110,6 @@ public class Bottom_Home extends Fragment {
                     @Override
                     public void release () {
 
-                    barcodeDetector.release();
                 }
 
                     @Override
@@ -119,16 +121,24 @@ public class Bottom_Home extends Fragment {
 
                         Log.d(TAG, String.valueOf(qrCodes));
                         if (qrCodes.size() != 0) {
+
+                            release();
+                            QRvalue = qrCodes.valueAt(0).displayValue;
+
+
                             Intent in = new Intent(getContext(), corona19_check.class);
-                            String QRvalue = qrCodes.valueAt(0).displayValue;
+
                             Log.d(TAG, QRvalue);
-
-
                             in.putExtra("QRvalue", QRvalue);
                             startActivity(in);
 
 
                         }
+
+
+
+
+
                     }
 
 

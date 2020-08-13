@@ -50,7 +50,7 @@ public class my_qr_item {
     }
 
     public void updateQR() {
-        strQR = QR_CERTI + ':' + addressStr + '/' + detailAddressStr + '/' + titleStr + '/' + phoneStr + '/' + iconURI;  // QR 코드에 들어갈 포맷 => 나중에 split 함수로 쪼개서 사용하면 됨
+        strQR = QR_CERTI + ':' + addressStr + ',' + detailAddressStr + ',' + titleStr + ',' + phoneStr + ',' + iconURI;  // QR 코드에 들어갈 포맷 => 나중에 split 함수로 쪼개서 사용하면 됨
     }
 
     public Bitmap getIcon() {

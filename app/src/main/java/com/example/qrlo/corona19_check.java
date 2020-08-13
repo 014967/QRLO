@@ -59,6 +59,7 @@ public class corona19_check extends AppCompatActivity {
     DatabaseReference myRef;
     FirebaseUser user;
     FirebaseAuth mAuth;
+    String wherelogo;
 
 
     Intent intent;
@@ -72,7 +73,7 @@ public class corona19_check extends AppCompatActivity {
 
         intent = getIntent();
         QRvalue = intent.getExtras().getString("QRvalue");
-        splitQRvalue =QRvalue.split("/");
+        splitQRvalue =QRvalue.split(",");
         stWhere = splitQRvalue[0] + splitQRvalue[1] + splitQRvalue[2] + splitQRvalue[3];
 
 
@@ -83,7 +84,7 @@ public class corona19_check extends AppCompatActivity {
 
         etDegree = findViewById(R.id.etDegree);
 
-        bodyDegree = etDegree.getText().toString();
+
 
         RB1 = findViewById(R.id.RB1);
         RB2 = findViewById(R.id.RB2);
@@ -108,22 +109,14 @@ public class corona19_check extends AppCompatActivity {
 
 
                     etVisit.setVisibility(View.VISIBLE);
-                    if(etVisit.equals(""))
-                    {
 
-                    }
-                    else {
-                        stVisitHistorty = etVisit.getText().toString();
-
-
-
-
-                    }
                     stVisit = "네";
 
                 }
                 else
                 { etVisit.setVisibility(View.INVISIBLE);
+
+
                     stVisit ="아니오";
                 }
             }
@@ -173,9 +166,20 @@ public class corona19_check extends AppCompatActivity {
                 myRef = database.getReference("user");
                 mAuth = FirebaseAuth.getInstance();
                 user = mAuth.getCurrentUser();
+                wherelogo = splitQRvalue[4];
+
+                bodyDegree = etDegree.getText().toString();
+                if(etVisit.equals(""))
+                {
+
+                }
+                else {
+                    stVisitHistorty = etVisit.getText().toString();
 
 
 
+
+                }
 
                 myRef.child(user.getUid()).child("history").push().addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -185,18 +189,23 @@ public class corona19_check extends AppCompatActivity {
 
                         profile.put("현재 온도", bodyDegree);
                         profile.put("2주간 해외 방문 이력" , stVisit);
+                        if(RB1.isChecked())
+                        {
 
-                        if(stVisitHistorty.isEmpty())
-                        {
-                            profile.put("해외 이력" , "아니오, 없습니다");
-                        }else
-                        {
                             profile.put("해외 이력", stVisitHistorty);
                         }
+                        else
+                        {
+
+                                profile.put("해외 이력" , "아니오, 없습니다");
+
+                        }
+
                         profile.put("발열 및 호흡기증상 유무", stDegree);
                         profile.put("2주내에 확진자 발생 지역 방문 유무", stCorona);
                         profile.put("where",stWhere);
                         profile.put("when", ServerValue.TIMESTAMP);
+                        profile.put("wherelogo", wherelogo);
 
 
 
