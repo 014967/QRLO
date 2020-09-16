@@ -57,6 +57,7 @@ dependencies {
 
     implementation 'nl.joery.animatedbottombar:library:1.0.8'
     implementation "androidx.fragment:fragment:$fragment_version"
+    implementation "com.google.firebase:firebase-analytics:17.5.0" //실험
 
 
 
