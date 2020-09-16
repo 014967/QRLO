@@ -47,9 +47,11 @@ public class Bottom_Home extends Fragment {
     Camera camera;
     SurfaceView surfaceView;
     String QRvalue;
+    boolean qr = false;
 
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
+
 
     String TAG = "Qrcode = ";
     public Bottom_Home() {
@@ -117,7 +119,7 @@ public class Bottom_Home extends Fragment {
                     public void receiveDetections (Detector.Detections < Barcode > detections) {
 
                     SparseArray<Barcode> qrCodes = detections.getDetectedItems();
-                    if (!(qrCodes == null)) {
+                    if (!(qrCodes == null && qr == false)) {
 
 
                         Log.d(TAG, String.valueOf(qrCodes));
@@ -130,6 +132,8 @@ public class Bottom_Home extends Fragment {
                             String[] splits = QRvalue.split(my_qr_item.QR_CERTI_SPLIT_TOKEN);
 
                             if(splits[0].equals(my_qr_item.QR_CERTI)){
+
+                                qr = true;
                                 Intent in = new Intent(getContext(), corona19_check.class);
 
                                 in.putExtra("QRvalue", splits[1]);
@@ -159,6 +163,7 @@ public class Bottom_Home extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        qr = false;
 
 
     }

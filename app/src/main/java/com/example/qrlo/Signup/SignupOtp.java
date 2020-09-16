@@ -74,7 +74,7 @@ public class SignupOtp extends Fragment {
             public void onClick(View v) {
                 String otp = OTPtext.getText().toString();
 
-                if (otp.isEmpty() || otp.length() < 6)
+                if (otp.equals("") || otp.length() < 6)
                 {
                     Toast.makeText(getActivity(), " 인증번호를 입력해주세요 ", Toast.LENGTH_SHORT).show();
 
@@ -86,15 +86,6 @@ public class SignupOtp extends Fragment {
                 }
             }
         });
-
-
-
-
-
-
-
-
-
 
 
         return v;

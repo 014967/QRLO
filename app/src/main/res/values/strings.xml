@@ -22,8 +22,6 @@
     <string name="ok">확인</string>
 
 
-
-
     <!-- activity_signup -->
     <string name="join">회원가입</string>
     <string name="get_number">인증번호 받기</string>

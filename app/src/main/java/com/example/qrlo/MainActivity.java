@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.qrlo.Signup.PhoneAuthActivity;
 import com.example.qrlo.Signup.Signup;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -155,7 +156,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this, Signup.class);
+             //   Intent in = new Intent(MainActivity.this, Signup.class);
+                Intent in = new Intent(MainActivity.this, PhoneAuthActivity.class);
                 startActivity(in);
             }
         });
