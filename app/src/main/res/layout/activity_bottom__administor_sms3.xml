@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".bottomActivity.Bottom_Administor"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/mainBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메인화면으로 돌아가기"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="수신 전화번호"/>
+    <EditText
+        android:id="@+id/admin_qr_phone_edit"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:hint="전화번호"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메세지를 입력하세요"/>
+    <EditText
+        android:id="@+id/admin_qr_msg_edit"
+        android:layout_width="360dp"
+        android:layout_height="120dp"
+        android:text="방문한 매장에 확진자가 발생하였습니다. 자가격리 조치 부탁드립니다."
+        android:gravity="top"
+        />
+
+    <Button
+        android:id="@+id/sendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="보내기"
+        />
+</LinearLayout>

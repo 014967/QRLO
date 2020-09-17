@@ -2,9 +2,7 @@ package com.example.qrlo.bottomActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.qrlo.CreateQrActivity;
 import com.example.qrlo.MyQrInfo;
@@ -30,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,6 +37,7 @@ public class Bottom_Administor extends Fragment {
     {
 
     }
+    Button adminBtn;
     ImageView btnadd;
     RecyclerView recyclerView;
     my_qr_adapter adapter;
@@ -97,7 +94,14 @@ public class Bottom_Administor extends Fragment {
             }
         });
 
-
+        adminBtn = v.findViewById(R.id.myQR_adminBtn);
+        adminBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Bottom_Administor_SMS3.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         btnadd = v.findViewById(R.id.myQR_addBtn);
         btnadd.setOnClickListener(new View.OnClickListener() {

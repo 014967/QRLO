@@ -51,6 +51,14 @@
 
 
         <!-- 추가버튼 -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/myQR_adminBtn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            />
+
         <ImageView
             android:id="@+id/myQR_addBtn"
             android:layout_width="90dp"

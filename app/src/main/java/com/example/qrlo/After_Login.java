@@ -1,20 +1,14 @@
 package com.example.qrlo;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
@@ -22,12 +16,8 @@ import com.example.qrlo.bottomActivity.Bottom_Administor;
 import com.example.qrlo.bottomActivity.Bottom_History;
 import com.example.qrlo.bottomActivity.Bottom_Home;
 import com.example.qrlo.bottomActivity.Bottom_Setting;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
