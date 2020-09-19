@@ -1,5 +1,6 @@
 package com.example.qrlo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +17,13 @@ import com.example.qrlo.bottomActivity.Bottom_Administor;
 import com.example.qrlo.bottomActivity.Bottom_History;
 import com.example.qrlo.bottomActivity.Bottom_Home;
 import com.example.qrlo.bottomActivity.Bottom_Setting;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 import android.widget.Toast;
@@ -23,12 +31,15 @@ import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 
 public class After_Login extends AppCompatActivity {
 
-
+    final int OLD_HISTORY_DEL_DATE = 21;    // 21일이 지난 기록은 삭제
 
     FragmentManager fragmentManager;
     Fragment Bottom_History;
@@ -104,7 +115,7 @@ public class After_Login extends AppCompatActivity {
         });
 
 
-
+        deleteOldHistory();     // 앱 시작하면 자신의 3주 지난 기록은 삭제됨
 
     }
 
@@ -127,6 +138,32 @@ public class After_Login extends AppCompatActivity {
 
                 }
                 break;
+        }
+    }
+
+
+    private void deleteOldHistory(){
+        long cutoff = new Date().getTime() - TimeUnit.MILLISECONDS.convert(OLD_HISTORY_DEL_DATE, TimeUnit.DAYS);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String userId = auth.getUid();
+
+        if( userId != null){
+            DatabaseReference ref = database.getReference().child(userId).child("history");
+            Query oldItems = ref.orderByChild("when").endAt(cutoff);
+            oldItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot item : snapshot.getChildren()){
+                        item.getRef().removeValue();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
         }
     }
 
