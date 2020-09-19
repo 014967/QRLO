@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -201,7 +202,7 @@ public class corona19_check extends AppCompatActivity {
                         profile.put("where",stWhere);
                         profile.put("when", ServerValue.TIMESTAMP);
                         profile.put("wherelogo", wherelogo);
-
+                        Toast.makeText(getApplicationContext(), stWhere, Toast.LENGTH_SHORT).show();
 
 
                         myRef.child(user.getUid()).child("history").push().updateChildren(profile);
