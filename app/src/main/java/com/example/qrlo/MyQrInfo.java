@@ -25,9 +25,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.util.Hashtable;
 
 public class MyQrInfo extends Activity {
 
@@ -76,7 +79,10 @@ public class MyQrInfo extends Activity {
         // QR 코드 생성
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try{
-            BitMatrix bitMatrix = multiFormatWriter.encode(item.getStrQR(), BarcodeFormat.QR_CODE, WIDTH, HEIGHT);
+            Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>(2);
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+            BitMatrix bitMatrix = multiFormatWriter.encode(item.getStrQR(), BarcodeFormat.QR_CODE, WIDTH, HEIGHT, hints);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             qrBit = barcodeEncoder.createBitmap(bitMatrix);
             qr.setImageBitmap(qrBit);
