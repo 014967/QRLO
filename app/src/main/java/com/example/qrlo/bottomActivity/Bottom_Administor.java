@@ -98,7 +98,7 @@ public class Bottom_Administor extends Fragment {
         adminBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Bottom_Administor_SMS3.class);
+                Intent intent = new Intent(getActivity(), Bottom_Admin.class);
                 getActivity().startActivity(intent);
             }
         });

@@ -1,6 +1,8 @@
 package com.example.qrlo.bottomActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -24,5 +26,15 @@ public class Bottom_Administor_SMS2 extends AppCompatActivity {
         recyclerView = findViewById(R.id.admin_qr_sms2_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+        Intent inIntent = getIntent();
+        inIntent.getStringExtra("Name");
+
+        sendto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Bottom_Administor_SMS3.class);
+                startActivity(intent);
+            }
+        });
     }
 }
