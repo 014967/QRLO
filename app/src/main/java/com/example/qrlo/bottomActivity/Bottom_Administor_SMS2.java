@@ -53,11 +53,12 @@ public class Bottom_Administor_SMS2 extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    bottom_item2 item = new bottom_item2();
-                    item.setPhoneStr(dataSnapshot.child("history").child("where").getValue(String.class));
-                    Toast.makeText(getApplicationContext(), dataSnapshot.child("history").child("where").getValue(String.class), Toast.LENGTH_SHORT).show();
-                    //item.setPhoneStr(dataSnapshot.child("email").getValue(String.class));
-                    mList.add(item);
+                    for(DataSnapshot dataSnapshot1: dataSnapshot.child("history").getChildren()) {
+                        bottom_item2 item = new bottom_item2();
+                        item.setPhoneStr(dataSnapshot1.child("where").getValue(String.class));
+                        //item.setPhoneStr(dataSnapshot.child("email").getValue(String.class));
+                        mList.add(item);
+                    }
 
                 }
                 adapter.notifyDataSetChanged();
