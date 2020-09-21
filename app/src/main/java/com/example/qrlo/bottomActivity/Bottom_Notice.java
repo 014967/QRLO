@@ -28,6 +28,7 @@ public class Bottom_Notice extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.activity_bottom__notice, container, false);
+
         recyclerView = v.findViewById(R.id.bottom_notice_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new bottom_notice_adapter(mList);

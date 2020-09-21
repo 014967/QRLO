@@ -15,4 +15,9 @@
     android:id="@+id/navigation_administor"
     android:title="QR만들기"
     android:icon="@drawable/ic_settings"/>
+
+    <item
+        android:id="@+id/navigation_notice"
+        android:title="알림"
+        android:icon="@drawable/ic_settings"/>
 </menu>

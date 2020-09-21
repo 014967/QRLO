@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import com.example.qrlo.bottomActivity.Bottom_Administor;
 import com.example.qrlo.bottomActivity.Bottom_History;
 import com.example.qrlo.bottomActivity.Bottom_Home;
+import com.example.qrlo.bottomActivity.Bottom_Notice;
 import com.example.qrlo.bottomActivity.Bottom_Setting;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +47,7 @@ public class After_Login extends AppCompatActivity {
     Fragment Bottom_Home;
     Fragment Bottom_Setting;
     Fragment Bottom_Administor;
+    Fragment Bottom_Notice;
 
     FrameLayout frameLayout;
     FragmentTransaction fragmentTransaction;
@@ -66,6 +68,7 @@ public class After_Login extends AppCompatActivity {
         Bottom_History = new Bottom_History();
         Bottom_Administor = new Bottom_Administor();
         Bottom_Setting = new Bottom_Setting();
+        Bottom_Notice = new Bottom_Notice();
         fragmentManager =getSupportFragmentManager();
 
 
@@ -104,6 +107,14 @@ public class After_Login extends AppCompatActivity {
                         fragmentTransaction.commit();
 
                         break;
+
+                    case R.id.navigation_notice :
+                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.navigation_frame, Bottom_Notice );
+                        fragmentTransaction.commit();
+
+                        break;
+
                 }
 
             }
