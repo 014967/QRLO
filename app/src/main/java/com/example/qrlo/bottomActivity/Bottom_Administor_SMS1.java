@@ -82,7 +82,7 @@ public class Bottom_Administor_SMS1 extends AppCompatActivity {
             public void onItemClick(View v, int pos) {
                 Intent intent = new Intent(getApplicationContext(), Bottom_Administor_SMS2.class);
                 bottom_item1 item = mList.get(pos);
-                intent.putExtra("Name", item.getNameStr());
+                intent.putExtra("Phone", item.getPhoneStr());
                 startActivity(intent);
             }
         });

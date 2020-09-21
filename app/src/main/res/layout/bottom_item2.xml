@@ -4,7 +4,7 @@
     android:layout_height="50dp">
 
     <TextView
-        android:id="@+id/admin_qr_name_txt"
+        android:id="@+id/admin_qr_storename_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="가게 이름"
@@ -14,13 +14,13 @@
         />
 
     <TextView
-        android:id="@+id/admin_qr_phone_txt"
+        android:id="@+id/admin_qr_storephone_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="전화번호"
         android:textSize="12dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/admin_qr_name_txt"
+        android:layout_toRightOf="@+id/admin_qr_storename_txt"
         android:layout_marginLeft="20dp"
         />
 

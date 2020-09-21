@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class bottom_adapter2 extends RecyclerView.Adapter<bottom_adapter2.ViewHolder>{
 
-    private ArrayList<bottom_item1> mData=null;
+    private ArrayList<bottom_item2> mData=null;
 
-    public bottom_adapter2(ArrayList<bottom_item1> list){ mData = list;}
+    public bottom_adapter2(ArrayList<bottom_item2> list){ mData = list;}
 
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);
@@ -37,8 +37,8 @@ public class bottom_adapter2 extends RecyclerView.Adapter<bottom_adapter2.ViewHo
         ViewHolder(View itemView){
             super(itemView);
 
-            name = itemView.findViewById(R.id.admin_qr_name_txt);
-            phone = itemView.findViewById(R.id.admin_qr_phone_txt);
+            name = itemView.findViewById(R.id.admin_qr_storename_txt);
+            phone = itemView.findViewById(R.id.admin_qr_storephone_txt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,7 +56,7 @@ public class bottom_adapter2 extends RecyclerView.Adapter<bottom_adapter2.ViewHo
 
     @NonNull
     @Override
-    public bottom_adapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -66,9 +66,9 @@ public class bottom_adapter2 extends RecyclerView.Adapter<bottom_adapter2.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull bottom_adapter2.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        bottom_item1 item = mData.get(position);
+        bottom_item2 item = mData.get(position);
 
         holder.name.setText(item.getNameStr());
         holder.phone.setText(item.getPhoneStr());
