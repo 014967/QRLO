@@ -19,5 +19,5 @@
     <item
         android:id="@+id/navigation_notice"
         android:title="알림"
-        android:icon="@drawable/ic_settings"/>
+        android:icon="@drawable/ic_baseline_notifications_24"/>
 </menu>
