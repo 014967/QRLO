@@ -2,49 +2,52 @@ package com.example.qrlo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
 import com.example.qrlo.bottomActivity.Bottom_Administor;
 import com.example.qrlo.bottomActivity.Bottom_History;
 import com.example.qrlo.bottomActivity.Bottom_Home;
+import com.example.qrlo.bottomActivity.Bottom_Notice;
 import com.example.qrlo.bottomActivity.Bottom_Setting;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 
 public class After_Login extends AppCompatActivity {
 
-
+    final int OLD_HISTORY_DEL_DATE = 21;    // 21일이 지난 기록은 삭제
 
     FragmentManager fragmentManager;
     Fragment Bottom_History;
     Fragment Bottom_Home;
     Fragment Bottom_Setting;
     Fragment Bottom_Administor;
+    Fragment Bottom_Notice;
 
     FrameLayout frameLayout;
     FragmentTransaction fragmentTransaction;
@@ -65,6 +68,7 @@ public class After_Login extends AppCompatActivity {
         Bottom_History = new Bottom_History();
         Bottom_Administor = new Bottom_Administor();
         Bottom_Setting = new Bottom_Setting();
+        Bottom_Notice = new Bottom_Notice();
         fragmentManager =getSupportFragmentManager();
 
 
@@ -103,6 +107,14 @@ public class After_Login extends AppCompatActivity {
                         fragmentTransaction.commit();
 
                         break;
+
+                    case R.id.navigation_notice :
+                        fragmentTransaction =getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.navigation_frame, Bottom_Notice );
+                        fragmentTransaction.commit();
+
+                        break;
+
                 }
 
             }
@@ -114,7 +126,7 @@ public class After_Login extends AppCompatActivity {
         });
 
 
-
+        deleteOldHistory();     // 앱 시작하면 자신의 3주 지난 기록은 삭제됨
 
     }
 
@@ -137,6 +149,32 @@ public class After_Login extends AppCompatActivity {
 
                 }
                 break;
+        }
+    }
+
+
+    private void deleteOldHistory(){
+        long cutoff = new Date().getTime() - TimeUnit.MILLISECONDS.convert(OLD_HISTORY_DEL_DATE, TimeUnit.DAYS);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String userId = auth.getUid();
+
+        if( userId != null){
+            DatabaseReference ref = database.getReference().child(userId).child("history");
+            Query oldItems = ref.orderByChild("when").endAt(cutoff);
+            oldItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot item : snapshot.getChildren()){
+                        item.getRef().removeValue();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
         }
     }
 
