@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -27,7 +27,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Signup.PhoneAuthActivityOtp"></activity>
+        <activity android:name=".Signup.PhoneAuthName"></activity>
+        <activity android:name=".Signup.PhoneAuthAgree" />
+        <activity android:name=".Signup.PhoneAuthActivityOtp" />
         <activity android:name=".Signup.PhoneAuthActivity" />
         <activity android:name=".corona19_check" />
         <activity

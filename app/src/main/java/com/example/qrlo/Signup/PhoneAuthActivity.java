@@ -1,9 +1,11 @@
 package com.example.qrlo.Signup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,13 +26,26 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthActivity extends AppCompatActivity {
 
 
+
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    FirebaseUser user;
     FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
+
     EditText etCtyNum;
     EditText etPhoneNum;
     Button OpenOTP;
@@ -41,8 +56,15 @@ public class PhoneAuthActivity extends AppCompatActivity {
     String CtyNum;
     String PhoneNum;
     String FullNum;
-
     String extraNum;
+
+
+
+
+    String LocationAgree;
+    String MarketingAgree;
+    String name;
+    String birth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +72,44 @@ public class PhoneAuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_auth);
 
 
+        Intent in = getIntent();
+
+        LocationAgree = in.getStringExtra("LocationAgree");
+        MarketingAgree = in.getStringExtra("MarketingAgree");
+        name = in.getStringExtra("name");
+        birth = in.getStringExtra("birth");
+
 
         etCtyNum = (EditText)findViewById(R.id.etCtyNum);
         etPhoneNum = (EditText)findViewById(R.id.etPhoneNum);
         OpenOTP = (Button)findViewById(R.id.OpenOtp);
         waitingBar = (ProgressBar)findViewById(R.id.waitingBar);
         mAuth = FirebaseAuth.getInstance();
+
+
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("user");
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    SharedPreferences sharedPreferences = getSharedPreferences("email", MODE_PRIVATE); // Mode_private = 해당액티비티에서만 접근가능
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("uid", user.getUid());
+                    editor.putString("email", user.getEmail());
+                    editor.apply(); //SharedPreerence를 통해 정보를 저장
+
+
+                } else {
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
 
 
@@ -132,7 +186,12 @@ public class PhoneAuthActivity extends AppCompatActivity {
             Intent intent = new Intent(PhoneAuthActivity.this , PhoneAuthActivityOtp.class);
             intent.putExtra("verificationId", verificationId);
             intent.putExtra("number", extraNum);
+            intent.putExtra("LocationAgree", LocationAgree);
+            intent.putExtra("MarketingAgree", MarketingAgree);
+            intent.putExtra("name",name);
+            intent.putExtra("birth",birth);
             startActivity(intent);
+            finish();
             Log.d(TAG, "onCodeSent:" + verificationId);
 
             // Save verification ID and resending token so we can use them later
@@ -144,9 +203,13 @@ public class PhoneAuthActivity extends AppCompatActivity {
     };
 
     private void SendToHomeActivity() {
+
         Intent in  = new Intent(PhoneAuthActivity.this , After_Login.class);
         startActivity(in);
         finish();
+
+
+
 
     }
 
@@ -160,6 +223,8 @@ public class PhoneAuthActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             SendToHomeActivity();
                             FirebaseUser user = task.getResult().getUser();
+
+
 
                             // ...
                         } else {
