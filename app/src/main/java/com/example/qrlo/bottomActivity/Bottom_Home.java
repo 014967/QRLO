@@ -21,10 +21,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
-import com.example.qrlo.After_Login;
 import com.example.qrlo.R;
 import com.example.qrlo.corona19_check;
 import com.example.qrlo.my_qr_item;
@@ -49,9 +47,11 @@ public class Bottom_Home extends Fragment {
     Camera camera;
     SurfaceView surfaceView;
     String QRvalue;
+    boolean qr = false;
 
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
+
 
     String TAG = "Qrcode = ";
     public Bottom_Home() {
@@ -119,8 +119,7 @@ public class Bottom_Home extends Fragment {
                     public void receiveDetections (Detector.Detections < Barcode > detections) {
 
                     SparseArray<Barcode> qrCodes = detections.getDetectedItems();
-                    
-                    if (!(qrCodes == null)) {
+                    if (!(qrCodes == null && qr == false)) {
 
 
                         Log.d(TAG, String.valueOf(qrCodes));
@@ -129,10 +128,14 @@ public class Bottom_Home extends Fragment {
                             release();
                             QRvalue = qrCodes.valueAt(0).displayValue;
                             Log.d(TAG, QRvalue);
+
                             String[] splits = QRvalue.split(my_qr_item.QR_CERTI_SPLIT_TOKEN);
 
                             if(splits[0].equals(my_qr_item.QR_CERTI)){
+
+                                qr = true;
                                 Intent in = new Intent(getContext(), corona19_check.class);
+
                                 in.putExtra("QRvalue", splits[1]);
                                 startActivity(in);
                             }
@@ -160,6 +163,7 @@ public class Bottom_Home extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        qr = false;
 
 
     }

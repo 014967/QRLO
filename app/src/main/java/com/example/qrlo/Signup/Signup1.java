@@ -2,9 +2,12 @@ package com.example.qrlo.Signup;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,10 +33,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
-public class Signup1 extends Fragment {
+public class Signup1 extends Fragment  {
 
 
 
@@ -87,12 +91,11 @@ public class Signup1 extends Fragment {
                 }
                 else
                 {
-                    GenerateButton.setEnabled(false);
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             Complete_phone_number,
                             60,                 // Timeout duration
-                            TimeUnit.SECONDS,   // Unit of timeout
-                            getActivity(),               // Activity (for callback binding)
+                            TimeUnit.SECONDS,
+                            (AppCompatActivity)getActivity(),   // Unit of timeout               // Activity (for callback binding)
                             mCallBack
                     );
 
@@ -104,6 +107,7 @@ public class Signup1 extends Fragment {
         mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+
 
             }
 
@@ -124,7 +128,6 @@ public class Signup1 extends Fragment {
 
             }
         };
-
 
 
 

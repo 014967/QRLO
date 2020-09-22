@@ -19,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.qrlo.Signup.PhoneAuthActivity;
+import com.example.qrlo.Signup.PhoneAuthActivityOtp;
+import com.example.qrlo.Signup.PhoneAuthAgree;
+import com.example.qrlo.Signup.PhoneAuthName;
 import com.example.qrlo.Signup.Signup;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     FirebaseDatabase firebaseDatabase;
+    DatabaseReference myRef;
     private FirebaseUser User;
 
 
@@ -155,7 +160,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this, Signup.class);
+             //   Intent in = new Intent(MainActivity.this, Signup.class);
+                Intent in = new Intent(MainActivity.this, PhoneAuthName.class);
                 startActivity(in);
             }
         });
@@ -176,8 +182,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     editor.apply();
 
+
                     Intent in = new Intent(MainActivity.this, After_Login.class);
                     startActivity(in);
+                    finish();
+
                 }
                 else
                 {
@@ -328,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Log.d(TAG , " sign in with credential: successful");
                     Toast.makeText(MainActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
 
-
+/*
                     User = mFirebaseAuth.getCurrentUser();
                     stuid = User.getUid();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -354,8 +363,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                         }
                     });
+                    */
 
-                    Intent in = new Intent(MainActivity.this , After_Login.class);
+
+               //     Intent in = new Intent(MainActivity.this , After_Login.class);
+                    Intent in = new Intent(MainActivity.this, PhoneAuthName.class);
                     startActivity(in);
                 }
                 else
