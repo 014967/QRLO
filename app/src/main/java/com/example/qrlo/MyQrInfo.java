@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.qrlo.bottomActivity.Bottom_Administor;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -144,7 +145,7 @@ public class MyQrInfo extends Activity {
                             databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(), "기본 이미지", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(), "기본 이미지", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -176,8 +177,9 @@ public class MyQrInfo extends Activity {
                                 }
                             });
                         }
-
-                        setResult(RESULT_OK);
+                        Intent intent = new Intent(getApplicationContext(), Bottom_Administor.class);
+                        intent.putExtra("Position", pos);
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 });

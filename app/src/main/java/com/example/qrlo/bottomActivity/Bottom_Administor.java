@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.qrlo.CreateQrActivity;
 import com.example.qrlo.MyQrInfo;
@@ -44,6 +47,10 @@ public class Bottom_Administor extends Fragment {
     ArrayList<my_qr_item> mList = new ArrayList<my_qr_item>();
     private static final int QR_CREATE = 10002;
     private static final int QR_INFO = 10003;
+    Integer pos;
+    Bundle bundle;
+    boolean getArg = true;
+    Integer posChg = -1;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -56,14 +63,16 @@ public class Bottom_Administor extends Fragment {
 
         View v= inflater.inflate(R.layout.activity_my_qr, container, false);
 
+
         recyclerView = v.findViewById(R.id.my_qr_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new my_qr_adapter(mList);
         RecyclerDecoration spaceDecoration = new RecyclerDecoration(30);
         recyclerView.addItemDecoration(spaceDecoration);
         recyclerView.setAdapter(adapter);
-
+/*
         mList.clear();
+        adapter.notifyDataSetChanged();
         databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -93,7 +102,7 @@ public class Bottom_Administor extends Fragment {
 
             }
         });
-
+*/
         adminBtn = v.findViewById(R.id.myQR_adminBtn);
         adminBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,5 +144,67 @@ public class Bottom_Administor extends Fragment {
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        switch(requestCode) {
+            case QR_INFO:
+                if(resultCode == Activity.RESULT_OK){
+                    Toast.makeText(getActivity(), "aweoirhjaerwioawerji", Toast.LENGTH_SHORT).show();
+                    mList.remove(pos);
+                    adapter.notifyDataSetChanged();
+                }
+
+                break;
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mList.clear();
+        databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                my_qr_item item = snapshot.getValue(my_qr_item.class);
+
+                mList.add(item);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+/*
+        if(getArguments()!=null && posChg!=getArguments().getInt("Position")) {
+            bundle =getArguments();
+            Toast.makeText(getActivity(), "bbbbbbbbbbb", Toast.LENGTH_SHORT).show();
+            mList.remove(bundle.getInt("Position"));
+            adapter.notifyDataSetChanged();
+            posChg = getArguments().getInt("Position");
+        }
+
+ */
+
+    }
 }

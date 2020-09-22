@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.FrameLayout;
 
 
@@ -41,7 +43,7 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 public class After_Login extends AppCompatActivity {
 
     final int OLD_HISTORY_DEL_DATE = 21;    // 21일이 지난 기록은 삭제
-
+    Integer pos=null;
     FragmentManager fragmentManager;
     Fragment Bottom_History;
     Fragment Bottom_Home;
@@ -130,7 +132,6 @@ public class After_Login extends AppCompatActivity {
 
     }
 
-
     private void setFragment(Fragment frag)
     {
 
@@ -138,18 +139,23 @@ public class After_Login extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case QR_CREATE:
-                if(resultCode == RESULT_OK) {
-                    Toast.makeText(getApplicationContext(), "생성되었습니다", Toast.LENGTH_SHORT).show();
-                }
-                break;
+        switch(requestCode) {
             case QR_INFO:
-                if(resultCode == RESULT_OK) {
-
+                if(resultCode == RESULT_OK){
+                    pos = data.getIntExtra("Position", 0);
+                    //Toast.makeText(getApplicationContext(), String.valueOf(pos), Toast.LENGTH_SHORT).show();
+                    if(pos!=null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("Position", pos);
+                        Bottom_Administor.setArguments(bundle);
+                        pos = null;
+                    }
                 }
+
                 break;
+
         }
+
     }
 
 
@@ -177,5 +183,6 @@ public class After_Login extends AppCompatActivity {
             });
         }
     }
+
 
 }
