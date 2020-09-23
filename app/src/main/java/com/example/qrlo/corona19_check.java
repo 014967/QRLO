@@ -205,6 +205,7 @@ public class corona19_check extends AppCompatActivity {
                         profile.put("where",stWhere);
                         profile.put("when", ServerValue.TIMESTAMP);
                         profile.put("wherelogo", wherelogo);
+                        profile.put("key", key);
 
 
 
