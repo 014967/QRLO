@@ -62,6 +62,7 @@ public class corona19_check extends AppCompatActivity {
     FirebaseUser user;
     FirebaseAuth mAuth;
     String wherelogo;
+    String key;
 
 
     Intent intent;
@@ -164,6 +165,7 @@ public class corona19_check extends AppCompatActivity {
                 mAuth = FirebaseAuth.getInstance();
                 user = mAuth.getCurrentUser();
                 wherelogo = splitQRvalue[4];
+                key = splitQRvalue[5];
 
                 bodyDegree = etDegree.getText().toString();
                 if(etVisit.equals(""))
@@ -209,7 +211,7 @@ public class corona19_check extends AppCompatActivity {
                         myRef.child(user.getUid()).child("history").push().updateChildren(profile);
 
                         // 방문 지역 주제 구독 => 나중에 이 주제로 알림 발송
-                        FirebaseMessaging.getInstance().subscribeToTopic(stWhere);
+                        FirebaseMessaging.getInstance().subscribeToTopic(key);
                     }
 
                     @Override

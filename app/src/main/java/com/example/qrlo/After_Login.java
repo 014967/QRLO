@@ -208,7 +208,7 @@ public class After_Login extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot item : snapshot.getChildren()){
                         try{
-                            String where = item.child("where").getValue().toString();
+                            String where = item.child("key").getValue().toString();
                             FirebaseMessaging.getInstance().unsubscribeFromTopic(where);
                         }
                         catch (Exception e){
