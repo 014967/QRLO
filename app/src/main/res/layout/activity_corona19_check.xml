@@ -16,15 +16,14 @@
         android:gravity="center"
         android:background="@drawable/title_bg">
         <TextView
-            android:id="@+id/QR_info_title"
+            android:id="@+id/myQR_maintxt"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:textSize="20dp"
             android:textColor="@color/dark_gray"
-            android:text="@string/create_qr_title"
+            android:text="자가 문진"
             android:gravity="center"/>
     </LinearLayout>
-
 
 
     <!-- 그림자 -->
