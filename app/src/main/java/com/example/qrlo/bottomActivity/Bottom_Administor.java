@@ -40,7 +40,7 @@ public class Bottom_Administor extends Fragment {
     {
 
     }
-    Button adminBtn;
+    //Button adminBtn;
     ImageView btnadd;
     RecyclerView recyclerView;
     my_qr_adapter adapter;
@@ -102,7 +102,7 @@ public class Bottom_Administor extends Fragment {
 
             }
         });
-*/
+
         adminBtn = v.findViewById(R.id.myQR_adminBtn);
         adminBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +111,8 @@ public class Bottom_Administor extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+
+ */
 
         btnadd = v.findViewById(R.id.myQR_addBtn);
         btnadd.setOnClickListener(new View.OnClickListener() {
