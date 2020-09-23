@@ -156,6 +156,7 @@ public class corona19_check extends AppCompatActivity {
 
 
 
+
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,70 +169,61 @@ public class corona19_check extends AppCompatActivity {
                 key = splitQRvalue[5];
 
                 bodyDegree = etDegree.getText().toString();
-                if(etVisit.equals(""))
-                {
+                if (bodyDegree.equals("")) {
+                    Toast.makeText(corona19_check.this, "체온을 입력해주세요", Toast.LENGTH_SHORT).show();
 
-                }
-                else {
-                    stVisitHistorty = etVisit.getText().toString();
+                } else {
 
+                    if (etVisit.equals("")) {
 
-
-
-                }
-
-                myRef.child(user.getUid()).child("history").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        Map<String, Object> profile = new HashMap<String, Object>();
-
-                        profile.put("현재 온도", bodyDegree);
-                        profile.put("2주간 해외 방문 이력" , stVisit);
-                        if(RB1.isChecked())
-                        {
-
-                            profile.put("해외 이력", stVisitHistorty);
-                        }
-                        else
-                        {
-
-                                profile.put("해외 이력" , "아니오, 없습니다");
-
-                        }
-
-                        profile.put("발열 및 호흡기증상 유무", stDegree);
-                        profile.put("2주내에 확진자 발생 지역 방문 유무", stCorona);
-                        profile.put("where",stWhere);
-                        profile.put("when", ServerValue.TIMESTAMP);
-                        profile.put("wherelogo", wherelogo);
-                        profile.put("key", key);
+                    } else {
+                        stVisitHistorty = etVisit.getText().toString();
 
 
-
-                        myRef.child(user.getUid()).child("history").push().updateChildren(profile);
-
-                        // 방문 지역 주제 구독 => 나중에 이 주제로 알림 발송
-                        FirebaseMessaging.getInstance().subscribeToTopic(key);
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    myRef.child(user.getUid()).child("history").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    }
-                });
+                            Map<String, Object> profile = new HashMap<String, Object>();
+
+                            profile.put("현재 온도", bodyDegree);
+                            profile.put("2주간 해외 방문 이력", stVisit);
+                            if (RB1.isChecked()) {
+
+                                profile.put("해외 이력", stVisitHistorty);
+                            } else {
+
+                                profile.put("해외 이력", "아니오, 없습니다");
+
+                            }
+
+                            profile.put("발열 및 호흡기증상 유무", stDegree);
+                            profile.put("2주내에 확진자 발생 지역 방문 유무", stCorona);
+                            profile.put("where", stWhere);
+                            profile.put("when", ServerValue.TIMESTAMP);
+                            profile.put("wherelogo", wherelogo);
+                            profile.put("key", key);
 
 
+                            myRef.child(user.getUid()).child("history").push().updateChildren(profile);
+
+                            // 방문 지역 주제 구독 => 나중에 이 주제로 알림 발송
+                            FirebaseMessaging.getInstance().subscribeToTopic(key);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
 
-
-
-
-
-
-                Intent in = new Intent(corona19_check.this, After_Login.class);
-                startActivity(in);
-                finish();
+                    Intent in = new Intent(corona19_check.this, After_Login.class);
+                    startActivity(in);
+                    finish();
+                }
             }
         });
     }

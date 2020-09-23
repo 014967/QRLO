@@ -54,10 +54,8 @@ public class Bottom_Home extends Fragment {
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
 
-    Handler handler;
 
     String TAG = "Qrcode = ";
-
 
 
     public Bottom_Home() {
@@ -73,7 +71,6 @@ public class Bottom_Home extends Fragment {
         View v = inflater.inflate(R.layout.activity_bottom__home, container, false);
 
 
-        handler = new Handler(Looper.getMainLooper());
         surfaceView = (SurfaceView) v.findViewById(R.id.surfaceView);
 
         barcodeDetector = new BarcodeDetector.Builder(getContext()).
@@ -87,11 +84,19 @@ public class Bottom_Home extends Fragment {
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                    return;
-                }
                 try {
+
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     cameraSource.start(holder);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -107,7 +112,6 @@ public class Bottom_Home extends Fragment {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
 
-                cameraSource.stop();
             }
         });
 
@@ -121,6 +125,7 @@ public class Bottom_Home extends Fragment {
 
                     @Override
                     public void receiveDetections(Detector.Detections<Barcode> detections) {
+
 
                         SparseArray<Barcode> qrCodes = detections.getDetectedItems();
                         if (!(qrCodes == null && qr == false)) {
@@ -143,7 +148,7 @@ public class Bottom_Home extends Fragment {
                                     new Thread() {
                                         @Override
                                         public void run() {
-                                            cameraSource.release();
+                                            cameraSource.stop();
                                         }
                                     }.start();
 
@@ -163,7 +168,7 @@ public class Bottom_Home extends Fragment {
                     }
                 });
             }
-            }.start();
+        }.start();
 
         return v;
     }
@@ -172,12 +177,10 @@ public class Bottom_Home extends Fragment {
     public void onStart() {
         super.onStart();
         qr = false;
-
-
-
     }
 
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
