@@ -8,10 +8,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 
 
@@ -29,6 +33,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
+
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +46,7 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 
 public class After_Login extends AppCompatActivity {
+    private static final String TAG = "After_Login";
 
     final int OLD_HISTORY_DEL_DATE = 21;    // 21일이 지난 기록은 삭제
     Integer pos=null;
@@ -129,6 +135,34 @@ public class After_Login extends AppCompatActivity {
 
 
         deleteOldHistory();     // 앱 시작하면 자신의 3주 지난 기록은 삭제됨
+
+        // 여기서 부터 알림 설정
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId  = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+
+        // If a notification message is tapped, any data accompanying the notification
+        // message is available in the intent extras. In this sample the launcher
+        // intent is fired when the notification is tapped, so any accompanying data would
+        // be handled here. If you want a different intent fired, set the click_action
+        // field of the notification message to the desired intent. The launcher intent
+        // is used when no click_action is specified.
+        //
+        // Handle possible data accompanying notification message.
+        // [START handle_data_extras]
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
+        // [END handle_data_extras]
 
     }
 
