@@ -31,7 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import android.widget.Toast;
@@ -207,6 +207,13 @@ public class After_Login extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot item : snapshot.getChildren()){
+                        try{
+                            String where = item.child("where").getValue().toString();
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(where);
+                        }
+                        catch (Exception e){
+                            Toast.makeText(getApplicationContext(),"deleteOldHistory_unsubscribe_failed", Toast.LENGTH_SHORT).show();
+                        }
                         item.getRef().removeValue();
                     }
                 }
