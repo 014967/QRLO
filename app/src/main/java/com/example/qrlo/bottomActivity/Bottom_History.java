@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.qrlo.R;
+import com.example.qrlo.RecyclerDecoration;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -62,6 +63,8 @@ public class Bottom_History extends Fragment {
         manager = new LinearLayoutManager(getActivity());
         rvGroup = v.findViewById(R.id.rvGroup);
         rvGroup.setLayoutManager(manager);
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(30);
+        rvGroup.addItemDecoration(spaceDecoration);
 
         ArrayDate = new ArrayList<DateInfo>();
         visitInfos = new ArrayList<VisitInfo>();
