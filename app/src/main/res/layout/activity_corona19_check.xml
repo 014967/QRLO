@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    tools:context=".CreateQrActivity"
     android:orientation="vertical"
-    tools:context=".corona19_check">
-
+    android:background="@color/bg_gray">
 
 
 
@@ -18,14 +16,15 @@
         android:gravity="center"
         android:background="@drawable/title_bg">
         <TextView
-            android:id="@+id/myQR_maintxt"
+            android:id="@+id/QR_info_title"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
             android:textSize="20dp"
             android:textColor="@color/dark_gray"
-            android:text="자가 문진"
+            android:text="@string/create_qr_title"
             android:gravity="center"/>
     </LinearLayout>
+
 
 
     <!-- 그림자 -->
@@ -36,179 +35,195 @@
 
 
 
-
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:gravity="center"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/round_rec_yellow_2">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="15dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="체온"
-                android:textSize="30sp"
-                android:layout_gravity="center_vertical|bottom" />
-
-            <EditText
-                android:id="@+id/etDegree"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|bottom"
-                android:ems="10"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
                 android:gravity="center"
-                android:hint="36.5"
-                android:textSize="40sp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/round_rec_yellow_2">
 
-                android:inputType="numberDecimal" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="℃"
-                android:textSize="30sp"
-                android:layout_gravity="center_vertical|bottom" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="체온"
+                        android:textSize="30sp"
+                        android:layout_gravity="center_vertical|bottom" />
+
+                    <EditText
+                        android:id="@+id/etDegree"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|bottom"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="36.5"
+                        android:textSize="40sp"
+
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="℃"
+                        android:textSize="30sp"
+                        android:layout_gravity="center_vertical|bottom" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="420dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_above="@id/goHome">
+
+
+                <TextView
+                    android:id="@+id/degree"
+                    android:layout_width="306dp"
+                    android:layout_height="55dp"
+                    android:text="발열(37.5도 이상) 및 호흡기 증상(기침, 가래, 콧물, 인후염)등 이 있다."
+                    android:textSize="16dp" />
+
+                <RadioGroup
+                    android:id="@+id/RG2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/RB4"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/RB3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="네                                        " />
+
+                    <RadioButton
+                        android:id="@+id/RB4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="아니요, 없습니다" />
+                </RadioGroup>
+
+
+                <TextView
+                    android:id="@+id/corona"
+                    android:layout_width="306dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="40dp"
+                    android:text="최근 2주 안에 코로나 바이러스 감염확진자가 발생한 지역을 방문한 적이 있습니까?"
+                    android:textSize="16dp" />
+
+                <RadioGroup
+                    android:id="@+id/RG3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/RB6"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/RB5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="네                                        " />
+
+                    <RadioButton
+                        android:id="@+id/RB6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="아니요, 없습니다" />
+                </RadioGroup>
+
+
+
+                <TextView
+                    android:id="@+id/visit"
+                    android:layout_width="306dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="최근 2주 안에 해외를 방문한 이력이 있습니까?"
+                    android:textSize="16dp" />
+
+                <RadioGroup
+                    android:id="@+id/RG1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/RB2"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/RB1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="네                                        " />
+
+                    <RadioButton
+                        android:id="@+id/RB2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="아니요, 없습니다" />
+
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/etVisit"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:hint="방문국가, 귀국일 (ex. 프랑스, 8/14)" />
+
+
+
+            </LinearLayout>
+
+
+
+
 
 
         </LinearLayout>
 
-    </RelativeLayout>
-
-
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_above="@id/goHome">
-
-
-        <TextView
-            android:id="@+id/degree"
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:text="발열(37.5도 이상) 및 호흡기 증상(기침, 가래, 콧물, 인후염)등 이 있다."
-            android:textSize="16dp" />
-
-        <RadioGroup
-            android:id="@+id/RG2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkedButton="@id/RB4"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/RB3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="네                                        " />
-
-            <RadioButton
-                android:id="@+id/RB4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="아니요, 없습니다" />
-        </RadioGroup>
-
-
-        <TextView
-            android:id="@+id/corona"
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="최근 2주 안에 코로나 바이러스 감염확진자가 발생한 지역을 방문한 적이 있습니까?"
-            android:textSize="16dp" />
-
-        <RadioGroup
-            android:id="@+id/RG3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkedButton="@id/RB6"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/RB5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="네                                        " />
-
-            <RadioButton
-                android:id="@+id/RB6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="아니요, 없습니다" />
-        </RadioGroup>
-
-
-
-        <TextView
-            android:id="@+id/visit"
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="최근 2주 안에 해외를 방문한 이력이 있습니까?"
-            android:textSize="16dp" />
-
-        <RadioGroup
-            android:id="@+id/RG1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkedButton="@id/RB2"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/RB1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="네                                        " />
-
-            <RadioButton
-                android:id="@+id/RB2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="아니요, 없습니다" />
-
-        </RadioGroup>
-
-        <EditText
-            android:id="@+id/etVisit"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:hint="방문국가, 귀국일 (ex. 프랑스, 8/14)" />
-
-
-
-    </LinearLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/goHome"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/blue_purple"
+        android:layout_height="60dp"
         android:text="@string/ok"
         android:textColor="@color/white"
-        android:textSize="22sp"/>
-
-
+        android:textSize="22sp"
+        android:background="@color/blue_purple"
+        />
 
 
 </LinearLayout>
