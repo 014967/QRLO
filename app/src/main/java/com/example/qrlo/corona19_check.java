@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -206,6 +207,9 @@ public class corona19_check extends AppCompatActivity {
 
 
                         myRef.child(user.getUid()).child("history").push().updateChildren(profile);
+
+                        // 방문 지역 주제 구독 => 나중에 이 주제로 알림 발송
+                        FirebaseMessaging.getInstance().subscribeToTopic(stWhere);
                     }
 
                     @Override

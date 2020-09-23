@@ -73,6 +73,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+        //sendNotification(remoteMessage.getFrom());
+
     }
     // [END receive_message]
 
@@ -100,8 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void scheduleJob() {
         // [START dispatch_job]
-        OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(MyWorker.class)
-                .build();
+        OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(MyWorker.class).build();
         WorkManager.getInstance().beginWith(work).enqueue();
         // [END dispatch_job]
     }
