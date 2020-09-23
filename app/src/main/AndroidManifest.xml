@@ -42,7 +42,8 @@ package="com.example.qrlo">
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     android:hardwareAccelerated="true"
-    tools:targetApi="m">
+    tools:targetApi="m"
+    >
 
     <activity android:name=".corona19_check"></activity>
     <activity
@@ -77,6 +78,9 @@ package="com.example.qrlo">
     <meta-data
         android:name="com.facebook.sdk.ApplicationId"
         android:value="@string/facebook_app_id" />
+    <meta-data
+        android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+        android:value="FALSE"/>
 
 
     <service

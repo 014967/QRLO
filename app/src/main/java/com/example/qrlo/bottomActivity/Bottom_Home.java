@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -48,12 +50,16 @@ public class Bottom_Home extends Fragment {
     SurfaceView surfaceView;
     String QRvalue;
     boolean qr = false;
-
+    String[] splits;
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
 
+    Handler handler;
 
     String TAG = "Qrcode = ";
+
+
+
     public Bottom_Home() {
 
     }
@@ -67,6 +73,7 @@ public class Bottom_Home extends Fragment {
         View v = inflater.inflate(R.layout.activity_bottom__home, container, false);
 
 
+        handler = new Handler(Looper.getMainLooper());
         surfaceView = (SurfaceView) v.findViewById(R.id.surfaceView);
 
         barcodeDetector = new BarcodeDetector.Builder(getContext()).
@@ -86,8 +93,7 @@ public class Bottom_Home extends Fragment {
                 }
                 try {
                     cameraSource.start(holder);
-                }catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -105,57 +111,59 @@ public class Bottom_Home extends Fragment {
             }
         });
 
-            new Thread() {
-                public void run(){
-            barcodeDetector.setProcessor(new Detector.Processor<Barcode>()
-
-                {
+        new Thread() {
+            public void run() {
+                barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
                     @Override
-                    public void release () {
+                    public void release() {
 
-                }
+                    }
 
                     @Override
-                    public void receiveDetections (Detector.Detections < Barcode > detections) {
+                    public void receiveDetections(Detector.Detections<Barcode> detections) {
 
-                    SparseArray<Barcode> qrCodes = detections.getDetectedItems();
-                    if (!(qrCodes == null && qr == false)) {
+                        SparseArray<Barcode> qrCodes = detections.getDetectedItems();
+                        if (!(qrCodes == null && qr == false)) {
 
 
-                        Log.d(TAG, String.valueOf(qrCodes));
-                        if (qrCodes.size() != 0) {
+                            Log.d(TAG, String.valueOf(qrCodes));
+                            if (qrCodes.size() != 0) {
 
-                            release();
-                            QRvalue = qrCodes.valueAt(0).displayValue;
-                            Log.d(TAG, QRvalue);
 
-                            String[] splits = QRvalue.split(my_qr_item.QR_CERTI_SPLIT_TOKEN);
+                                QRvalue = qrCodes.valueAt(0).displayValue;
+                                Log.d(TAG, QRvalue);
 
-                            if(splits[0].equals(my_qr_item.QR_CERTI)){
+                                splits = QRvalue.split(my_qr_item.QR_CERTI_SPLIT_TOKEN);
 
-                                qr = true;
-                                Intent in = new Intent(getContext(), corona19_check.class);
+                                if (splits[0].equals(my_qr_item.QR_CERTI)) {
 
-                                in.putExtra("QRvalue", splits[1]);
-                                startActivity(in);
+                                    qr = true;
+
+
+                                    new Thread() {
+                                        @Override
+                                        public void run() {
+                                            cameraSource.release();
+                                        }
+                                    }.start();
+
+                                    Intent in = new Intent(getContext(), corona19_check.class);
+                                    in.putExtra("QRvalue", splits[1]);
+                                    startActivity(in);
+
+
+                                }
+
                             }
+
 
                         }
 
 
-
-
-
                     }
-
-
-                }
                 });
-                }
+            }
             }.start();
-
-
-
 
         return v;
     }
@@ -166,5 +174,10 @@ public class Bottom_Home extends Fragment {
         qr = false;
 
 
+
     }
+
+
+
+
 }

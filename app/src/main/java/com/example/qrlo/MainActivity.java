@@ -337,36 +337,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     Log.d(TAG , " sign in with credential: successful");
                     Toast.makeText(MainActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
 
-/*
-                    User = mFirebaseAuth.getCurrentUser();
-                    stuid = User.getUid();
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    final DatabaseReference myRef = database.getReference("user");
-                    myRef.child(stuid).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            String userName = User.getDisplayName();
-
-                            Map<String, Object> profile = new HashMap<String, Object>();
-                            profile.put("email", User.getEmail());
-                            profile.put("uid",User.getUid());
-                            profile.put("name", userName);
-
-                            myRef.child(User.getUid()).setValue(profile);
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    */
-
-
-               //     Intent in = new Intent(MainActivity.this , After_Login.class);
                     Intent in = new Intent(MainActivity.this, PhoneAuthName.class);
                     startActivity(in);
                 }
