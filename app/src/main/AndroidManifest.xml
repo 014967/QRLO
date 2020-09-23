@@ -10,26 +10,26 @@ package="com.example.qrlo">
     android:name="com.google.android.gms.vision.DEPENDENCIES"
     android:value="barcode"></meta-data>
 
-    <!--
-   알림이 도착했을 때 나올 아이콘 및 컬러
+
+   <!--알림이 도착했을 때 나올 아이콘 및 컬러-->
   <meta-data
       android:name="com.google.firebase.messaging.default_notification_icon"
       android:resource="@drawable/ic_stat_ic_notification" />
   <meta-data
       android:name="com.google.firebase.messaging.default_notification_color"
       android:resource="@color/colorAccent" />
-   알림을 받기 위한 채널 설정
+   <!--알림을 받기 위한 채널 설정-->
   <meta-data
       android:name="com.google.firebase.messaging.default_notification_channel_id"
       android:value="@string/default_notification_channel_id" />
-   인스턴스 ID 자동 생성 방지
+   <!--인스턴스 ID 자동 생성 방지-->
   <meta-data
       android:name="firebase_messaging_auto_init_enabled"
       android:value="false" />
   <meta-data
       android:name="firebase_analytics_collection_enabled"
       android:value="false" />
-  -->
+
 
 <uses-feature android:name="android.hardware.camera" />
 
