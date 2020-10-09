@@ -182,6 +182,37 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     editor.apply();
 
+/*
+                    User = mFirebaseAuth.getCurrentUser();
+                    stuid = User.getUid();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef = database.getReference("user");
+                    myRef.child(stuid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.hasChild("birth") && snapshot.hasChild("MarketingAgree"))
+                            {
+
+                            }
+                            else
+                            {
+                                if(snapshot.hasChild("birth") && !snapshot.hasChild("MarketingAgree"))
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    })*/
+
 
                     Intent in = new Intent(MainActivity.this, After_Login.class);
                     startActivity(in);
