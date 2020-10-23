@@ -59,7 +59,7 @@ dependencies {
     implementation "androidx.fragment:fragment:$fragment_version"
 
 
-
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 
     implementation 'com.google.zxing:core:3.3.0'// don't touch
     implementation 'com.google.android.gms:play-services-vision:20.1.0'// don't touch

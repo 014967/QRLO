@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.qrlo.bottomActivity.Bottom_Administor;
@@ -31,6 +35,11 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Hashtable;
 
 public class MyQrInfo extends Activity {
@@ -99,13 +108,44 @@ public class MyQrInfo extends Activity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
+                File cachePath = new File(getExternalCacheDir(), "my_images/");
+                cachePath.mkdirs();
 
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "공유");
+                //create png file
+                File file = new File(cachePath, "Image_123.png");
+                FileOutputStream fileOutputStream;
+                try
+                {
+                    fileOutputStream = new FileOutputStream(file);
+                    qrBit.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
 
-                Intent sharingIntent =  Intent.createChooser(shareIntent, "공유하기");
-                startActivity(sharingIntent);
+                } catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                //---Share File---//
+                //get file uri
+                try{
+                    Uri myImageFileUri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", file);
+
+                    //create a intent
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.putExtra(Intent.EXTRA_STREAM, myImageFileUri);
+                    intent.setType("image/png");
+                    startActivity(Intent.createChooser(intent, "Share with"));
+                }
+                catch (Exception e){
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
 
 
             }
