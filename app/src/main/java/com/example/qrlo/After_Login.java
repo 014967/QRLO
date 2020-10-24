@@ -202,7 +202,7 @@ public class After_Login extends AppCompatActivity {
 
         if( userId != null){
             DatabaseReference ref = database.getReference().child(userId).child("history");
-            Query oldItems = ref.orderByChild("when").endAt(cutoff);
+            Query oldItems = ref.orderByChild("when").endAt(cutoff); // cutoff 3주 전 오늘의 timestamp값 ,
             oldItems.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

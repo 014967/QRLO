@@ -238,10 +238,10 @@ public class MyQrInfo extends Activity {
             case QR_MOD:
                 if(resultCode == RESULT_OK) {
                     StorageReference storageReference = firebaseStorage.getReference();
-                    if(item.getIconURI()!="https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/qrlo_icon.jpg?alt=media&token=67161f75-9373-48bb-90fd-07988ff217fa") {
-                        storageReference.child(item.getIconName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    if(item.getIconURI()!="https://firebasestorage.googleapis.com/v0/b/qrlo-798fd.appspot.com/o/qrlo_icon.jpg?alt=media&token=67161f75-9373-48bb-90fd-07988ff217fa"&& item.getIconName()!=null) {
+                        storageReference.child(item.getIconURI()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
+                                public void onSuccess(Void aVoid) {
                                 databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").child(item.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
