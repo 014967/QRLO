@@ -112,6 +112,9 @@ public class Bottom_Home extends Fragment {
     Toast toast1;
     Toast toast2;
 
+    String d;
+    String f;
+
     Calendar calendar;
 
     public Bottom_Home() {
@@ -241,7 +244,7 @@ public class Bottom_Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.activity_bottom__home, container, false);
+        final View v = inflater.inflate(R.layout.activity_bottom__home, container, false);
 
 
         userBTN = v.findViewById(R.id.userBTN);
@@ -356,6 +359,7 @@ public class Bottom_Home extends Fragment {
                     public void receiveDetections(Detector.Detections<Barcode> detections) {
 
 
+
                         SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
                         if (!(qrCodes == null && qr == false)) {
@@ -399,6 +403,8 @@ public class Bottom_Home extends Fragment {
                                                 longitude-MIN<=list.get(0).getLongitude() && list.get(0).getLongitude()<=longitude+MAX){
                                             //Toast.makeText(getActivity(), "주소정보가 맞습니다.", Toast.LENGTH_SHORT).show();
                                             isadded=false;
+                                            d = "";
+                                            f = "";
                                             myRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -414,16 +420,18 @@ public class Bottom_Home extends Fragment {
                                                                     VisitInfo visitInfo = dataSnapshot.getValue(VisitInfo.class);
                                                                     SimpleDateFormat sfd = new SimpleDateFormat("ddMMyyyy");
                                                                     Date date = new Date(visitInfo.getWhen());
-                                                                    String d = sfd.format(date);
+                                                                    d = sfd.format(date);
                                                                     Log.d(TAG, "String d  : " + d);
                                                                     SimpleDateFormat sfd2 = new SimpleDateFormat("ddMMyyyy");
 
                                                                     calendar = Calendar.getInstance();
-                                                                    String f = sfd2.format(calendar.getTime());
+                                                                    f = sfd2.format(calendar.getTime());
 
                                                                     Log.d(TAG, "String f : " + f);
 
                                                                     if (d.equals(f)) {
+
+                                                                            Log.d(TAG +  "시발 왜 두번임?" , String.valueOf(isadded));
                                                                         Map<String, Object> profile = new HashMap<String, Object>();
                                                                         profile.put("currentDegree", visitInfo.getCurrentDegree());
                                                                         profile.put("visitHistoryfor2week", visitInfo.getVisitHistoryfor2week());
@@ -439,17 +447,21 @@ public class Bottom_Home extends Fragment {
                                                                             myRef.child(user.getUid()).child("history").push().updateChildren(profile);
                                                                             isadded = true;
                                                                             toast2.show();
+                                                                            Log.d(TAG , " 날짜 같을 때 PUSH");
                                                                         }
 
                                                                     }
                                                                     else
                                                                     {
 
-                                                                        Intent in =new Intent(getContext(),corona19_check.class);
+                                                                        isadded = true;
+                                                                        Intent in =new Intent(getActivity(),corona19_check.class);
                                                                         in.putExtra("QRvalue", splits[1]);
                                                                         startActivity(in);
+
                                                                     }
                                                                 }
+
 
 
                                                             }
@@ -464,7 +476,7 @@ public class Bottom_Home extends Fragment {
                                                     else
                                                     {
 
-                                                        Intent in =new Intent(getContext(),corona19_check.class);
+                                                        Intent in =new Intent(getActivity(),corona19_check.class);
                                                         in.putExtra("QRvalue", splits[1]);
                                                         startActivity(in);
                                                     }

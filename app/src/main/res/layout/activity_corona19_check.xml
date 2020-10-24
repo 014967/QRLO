@@ -82,7 +82,7 @@
                         android:hint="36.5"
                         android:textSize="40sp"
 
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
                     <TextView
                         android:layout_width="wrap_content"

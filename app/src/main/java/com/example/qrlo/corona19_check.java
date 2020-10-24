@@ -16,6 +16,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +64,7 @@ public class corona19_check extends AppCompatActivity {
     EditText etDegree;
 
 
+    String TAG = "TEST";
     String bodyDegree;
 
     String stVisitHistorty;
@@ -232,6 +234,7 @@ public class corona19_check extends AppCompatActivity {
 
 
                             myRef.child(user.getUid()).child("history").push().updateChildren(profile);
+                            Log.d(TAG , "자가문진표 PUSH");
                             // 방문 지역 주제 구독 => 나중에 이 주제로 알림 발송
                             FirebaseMessaging.getInstance().subscribeToTopic(key);
                         }
