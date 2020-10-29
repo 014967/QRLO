@@ -57,6 +57,7 @@ public class Bottom_Home extends Fragment {
 
     String TAG = "Qrcode = ";
 
+    private Gps
 
     public Bottom_Home() {
 

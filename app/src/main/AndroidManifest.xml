@@ -4,6 +4,8 @@ package="com.example.qrlo">
 
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <meta-data
@@ -86,10 +88,13 @@ package="com.example.qrlo">
     <service
         android:name="MyFirebaseMessagingService"
         android:exported="false">
+
         <intent-filter>
             <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
     </service>
+    <service android:name=".FetchAddressIntentService"
+        android:exported="false"/>
 </application>
 
 </manifest>
