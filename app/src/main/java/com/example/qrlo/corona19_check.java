@@ -1,10 +1,22 @@
 package com.example.qrlo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +25,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qrlo.bottomActivity.GpsTracker;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,9 +37,12 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class corona19_check extends AppCompatActivity {
@@ -47,6 +64,7 @@ public class corona19_check extends AppCompatActivity {
     EditText etDegree;
 
 
+    String TAG = "TEST";
     String bodyDegree;
 
     String stVisitHistorty;
@@ -65,8 +83,8 @@ public class corona19_check extends AppCompatActivity {
     String key;
 
 
-    Intent intent;
 
+    Intent intent;
 
 
     @Override
@@ -78,6 +96,8 @@ public class corona19_check extends AppCompatActivity {
         QRvalue = intent.getExtras().getString("QRvalue");
         splitQRvalue =QRvalue.split(",");
         stWhere = splitQRvalue[0] + splitQRvalue[1];// + splitQRvalue[2] + splitQRvalue[3];
+
+
 
 
         etDegree = findViewById(R.id.etDegree);
@@ -111,7 +131,7 @@ public class corona19_check extends AppCompatActivity {
                     stVisit = "네";
 
                 }
-                else
+                if(checkedId == R.id.RB2)
                 { etVisit.setVisibility(View.INVISIBLE);
 
 
@@ -119,6 +139,8 @@ public class corona19_check extends AppCompatActivity {
                 }
             }
         });
+
+        RB2.setChecked(true);
 
 
         RG2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -130,12 +152,14 @@ public class corona19_check extends AppCompatActivity {
                     stDegree = "네";
 
                 }
-                else{
+                if(checkedId == R.id.RB4){
 
                     stDegree ="아니오";
                 }
             }
         });
+
+        RB4.setChecked(true);
 
         RG3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -144,13 +168,15 @@ public class corona19_check extends AppCompatActivity {
                 {
                     stCorona = "네";
                 }
-                else
+                if(checkedId == R.id.RB6)
                 {
                     stCorona ="아니오";
                 }
             }
         });
 
+
+        RB6.setChecked(true);
         goHome = findViewById(R.id.goHome);
 
 
@@ -188,19 +214,19 @@ public class corona19_check extends AppCompatActivity {
 
                             Map<String, Object> profile = new HashMap<String, Object>();
 
-                            profile.put("현재 온도", bodyDegree);
-                            profile.put("2주간 해외 방문 이력", stVisit);
+                            profile.put("currentDegree", bodyDegree);
+                            profile.put("visitHistoryfor2week", stVisit);  // 네 or 아니오
                             if (RB1.isChecked()) {
 
-                                profile.put("해외 이력", stVisitHistorty);
+                                profile.put("stvisithistory", stVisitHistorty);   // 해외 이력 쓰기
                             } else {
 
-                                profile.put("해외 이력", "아니오, 없습니다");
+                                profile.put("stvisithistory", "아니오, 없습니다");
 
                             }
 
-                            profile.put("발열 및 호흡기증상 유무", stDegree);
-                            profile.put("2주내에 확진자 발생 지역 방문 유무", stCorona);
+                            profile.put("Pulmonarysym", stDegree);
+                            profile.put("visitlocationfor2week", stCorona);
                             profile.put("where", stWhere);
                             profile.put("when", ServerValue.TIMESTAMP);
                             profile.put("wherelogo", wherelogo);
@@ -208,7 +234,7 @@ public class corona19_check extends AppCompatActivity {
 
 
                             myRef.child(user.getUid()).child("history").push().updateChildren(profile);
-
+                            Log.d(TAG , "자가문진표 PUSH");
                             // 방문 지역 주제 구독 => 나중에 이 주제로 알림 발송
                             FirebaseMessaging.getInstance().subscribeToTopic(key);
                         }

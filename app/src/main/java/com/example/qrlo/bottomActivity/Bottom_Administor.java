@@ -170,7 +170,7 @@ public class Bottom_Administor extends Fragment {
         databaseReference.child("user").child(firebaseUser.getUid()).child("myQR").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                mList.clear();
                 my_qr_item item = snapshot.getValue(my_qr_item.class);
 
                 mList.add(item);
@@ -184,7 +184,7 @@ public class Bottom_Administor extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                mList.clear();
             }
 
             @Override

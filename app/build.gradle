@@ -59,7 +59,7 @@ dependencies {
     implementation "androidx.fragment:fragment:$fragment_version"
 
 
-
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 
     implementation 'com.google.zxing:core:3.3.0'// don't touch
     implementation 'com.google.android.gms:play-services-vision:20.1.0'// don't touch
@@ -78,7 +78,7 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-auth-api-phone:17.4.0"
     implementation "com.google.firebase:firebase-analytics-ktx:17.5.0"
-
+    implementation 'com.google.android.gms:play-services-basement:17.4.0'
 
     configurations.all { //https://wonpaper.tistory.com/205
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->

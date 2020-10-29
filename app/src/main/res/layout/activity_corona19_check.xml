@@ -82,7 +82,7 @@
                         android:hint="36.5"
                         android:textSize="40sp"
 
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -119,7 +119,6 @@
                     android:id="@+id/RG2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkedButton="@id/RB4"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -148,7 +147,6 @@
                     android:id="@+id/RG3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkedButton="@id/RB6"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -178,7 +176,6 @@
                     android:id="@+id/RG1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkedButton="@id/RB2"
                     android:orientation="horizontal">
 
                     <RadioButton
