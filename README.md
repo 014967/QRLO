@@ -36,7 +36,7 @@
 
 
 * 시연화면
-1. 메인화면 - 자가진단표 - 방문기록 <br>
-![qrlo_screenshot](./img/qrlo_ex1.JPG)![qrlo_screenshot](./img/qrlo_ex2.JPG)![qrlo_screenshot](./img/qrlo_ex3.JPG)
-3. QR코드 목록 - QR코드 정보 - 알림메세지<br>
-![qrlo_screenshot](./img/qrlo_ex4.JPG)![qrlo_screenshot](./img/qrlo_ex5.JPG)![qrlo_screenshot](./img/qrlo_ex6.JPG)
+  + 메인화면 - 자가진단표 - 방문기록 <br>
+  ![qrlo_screenshot](./img/qrlo_ex1.JPG)![qrlo_screenshot](./img/qrlo_ex2.JPG)![qrlo_screenshot](./img/qrlo_ex3.JPG)
+  + QR코드 목록 - QR코드 정보 - 알림메세지<br>
+  ![qrlo_screenshot](./img/qrlo_ex4.JPG)![qrlo_screenshot](./img/qrlo_ex5.JPG)![qrlo_screenshot](./img/qrlo_ex6.JPG)
