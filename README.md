@@ -7,7 +7,7 @@
 -> 점주 QR코드 생성 후 부착, 고객 QRLO 앱으로 인식
 
 
-![qrlo_screenshot](./img/qrlo1.JPG)
+![qrlo_screenshot](./img/qrlo.JPG)
 
 -------
 
